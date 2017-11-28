@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${FAMILY_MYSQL_PATH}
+    username: ${FAMILY_MYSQL_USERNAME}
+    password: ${FAMILY_MYSQL_PASSWORD}
+  jpa:
+#    generate-ddl: true
+#    show-sql=true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        ddl-auto: update
+
+server:
+  context-path: /uaa
+  port: 5000

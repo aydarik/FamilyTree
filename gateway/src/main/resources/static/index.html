@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Family Tree</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div>
+    <button type="button" onclick="addUser()">Add user</button>
+</div>
+
+<script type="text/javascript">
+    function addUser() {
+        var username = 'test';
+        var password = 'pass';
+
+        $.ajax({
+            url: 'accounts/',
+            datatype: 'json',
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
+            success: function (data) {
+                requestOauthToken(username, password);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status === 400) {
+                    alert("Sorry, account with the same name already exists.");
+                } else {
+                    alert("An error during account creation. Please, try again.");
+                }
+            }
+        });
+    }
+
+    function requestOauthToken(username, password) {
+        $.ajax({
+            url: 'uaa/oauth/token',
+            datatype: 'json',
+            type: 'post',
+            headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
+            async: false,
+            data: {
+                scope: 'ui',
+                username: username,
+                password: password,
+                grant_type: 'password'
+            },
+            success: function (data) {
+                localStorage.setItem('token', data.access_token);
+                alert(data.access_token);
+            },
+            error: function () {
+                removeOauthTokenFromStorage();
+                alert("An error during OAuth token requesting. Please, try again.");
+            }
+        });
+    }
+
+    function getOauthTokenFromStorage() {
+        return localStorage.getItem('token');
+    }
+
+    function removeOauthTokenFromStorage() {
+        return localStorage.removeItem('token');
+    }
+</script>
+</body>
+</html>
