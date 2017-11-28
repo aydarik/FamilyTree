@@ -31,8 +31,8 @@ dependencyManagement {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
-//    compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    compile "org.springframework.cloud:spring-cloud-config-server:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-eureka-server:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion"
 }
 
 compileKotlin {
@@ -48,5 +48,5 @@ sourceSets {
 }
 
 jar {
-    archiveName 'config.jar'
+    archiveName 'registry.jar'
 }

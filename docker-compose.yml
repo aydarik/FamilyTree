@@ -20,6 +20,21 @@ services:
         max-size: "10m"
         max-file: "10"
 
+  registry:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: aydarik/family-registry
+    restart: always
+#    depends_on:
+#      config:
+#        condition: service_healthy
+    ports:
+      - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
   gateway:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD

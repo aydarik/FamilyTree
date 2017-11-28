@@ -1,9 +1,11 @@
 spring:
   datasource:
-    url: ${FAMILY_MYSQL_PATH}
-    username: ${FAMILY_MYSQL_USERNAME}
-    password: ${FAMILY_MYSQL_PASSWORD}
+    url: ${MYSQL_PATH}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
+    database: mysql
 #    generate-ddl: true
 #    show-sql=true
     properties:
