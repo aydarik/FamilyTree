@@ -5,8 +5,7 @@ import com.jcraft.jsch.Session
 import org.springframework.beans.factory.annotation.Value
 
 class SSHConnection {
-    @Value("\${family.ssh.knownHostsFile}")
-    private val S_PATH_FILE_KNOWN_HOSTS = ""
+    private val S_PATH_FILE_KNOWN_HOSTS = "/.ssh/known_hosts"
 
     private val LOCAl_PORT = 3307
 

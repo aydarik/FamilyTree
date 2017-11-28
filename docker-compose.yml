@@ -25,9 +25,9 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: aydarik/family-registry
     restart: always
-#    depends_on:
-#      config:
-#        condition: service_healthy
+    depends_on:
+      config:
+        condition: service_healthy
     ports:
       - 8761:8761
     logging:
@@ -53,6 +53,15 @@ services:
   auth-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      MYSQL_PATH: $MYSQL_PATH
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_SSH: $MYSQL_SSH
+      MYSQL_SSH_KNOWN_HOSTS_FILE: $MYSQL_SSH_KNOWN_HOSTS_FILE
+      MYSQL_SSH_REMOTE_PORT: $MYSQL_SSH_REMOTE_PORT
+      MYSQL_SSH_REMOTE_SERVER: $MYSQL_SSH_REMOTE_SERVER
+      MYSQL_SSH_USER: $MYSQL_SSH_USER
+      MYSQL_SSH_PASSWORD: $MYSQL_SSH_PASSWORD
     image: aydarik/family-auth-service
     restart: always
     depends_on:
