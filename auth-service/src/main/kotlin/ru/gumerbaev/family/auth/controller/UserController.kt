@@ -1,19 +1,20 @@
 package ru.gumerbaev.family.auth.controller
 
+import kotlinx.nosql.mongodb.MongoDB
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import ru.gumerbaev.family.auth.domain.User
+import ru.gumerbaev.family.auth.data.User
 import ru.gumerbaev.family.auth.service.UserService
 import java.security.Principal
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/users")
-open class UserController {
+open class UserController @Autowired constructor(val db: MongoDB) {
 
     @Autowired
     private val userService: UserService? = null

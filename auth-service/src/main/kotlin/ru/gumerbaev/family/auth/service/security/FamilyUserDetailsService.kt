@@ -1,21 +1,25 @@
 package ru.gumerbaev.family.auth.service.security
 
+import kotlinx.nosql.mongodb.MongoDB
+import kotlinx.nosql.text
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
-import ru.gumerbaev.family.auth.repository.UserRepository
+import ru.gumerbaev.family.auth.data.User
+import ru.gumerbaev.family.auth.data.Users
 
 @Service
-class FamilyUserDetailsService : UserDetailsService {
-
-    @Autowired
-    private val repository: UserRepository? = null
+class FamilyUserDetailsService @Autowired constructor(val db: MongoDB) : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
+        var user: User? = null
+        db.withSession {
+            user = Users.find { text(username) }.single()
+        }
 
-        return repository!!.findOne(username) ?: throw UsernameNotFoundException(username)
+        return user!!
     }
 }
