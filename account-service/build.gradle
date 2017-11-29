@@ -5,6 +5,7 @@ buildscript {
     ext.kotlinVersion = '1.1.61'
     ext.springBootVersion = '1.5.8.RELEASE'
     ext.springCloudVersion = '1.3.0.RELEASE'
+    ext.springSecurityVersion = '2.1.1.RELEASE'
 
     repositories {
         mavenCentral()
@@ -19,6 +20,10 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 repositories {
     mavenCentral()
 }
@@ -31,8 +36,21 @@ dependencyManagement {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    compile "org.springframework.cloud:spring-cloud-config-server:$springCloudVersion"
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+
+    compile "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-feign:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-eureka:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-bus-amqp:$springCloudVersion"
+    compile "org.springframework.cloud:spring-cloud-netflix-hystrix-stream:$springCloudVersion"
+
+    compile "org.springframework.security.oauth:spring-security-oauth2:$springSecurityVersion"
+
+    compile "org.springframework.cloud:spring-cloud-starter-oauth2:1.1.4.RELEASE"
 }
 
 compileKotlin {
@@ -48,5 +66,5 @@ sourceSets {
 }
 
 jar {
-    archiveName 'config.jar'
+    archiveName 'account-service.jar'
 }

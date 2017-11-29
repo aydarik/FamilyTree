@@ -1,6 +1,6 @@
 package ru.gumerbaev.family.auth.service
 
-import ru.gumerbaev.family.auth.data.User
+import ru.gumerbaev.family.auth.domain.User
 
 interface UserService {
 

@@ -16,13 +16,14 @@
 
 <script type="text/javascript">
     function addUser() {
-        var username = 'test';
+        var username = 'test-1';
         var password = 'pass';
 
         $.ajax({
             url: 'accounts/',
             datatype: 'json',
             type: "post",
+            async: false,
             contentType: "application/json",
             data: JSON.stringify({
                 username: username,
@@ -32,11 +33,7 @@
                 requestOauthToken(username, password);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                if (xhr.status === 400) {
-                    alert("Sorry, account with the same name already exists.");
-                } else {
-                    alert("An error during account creation. Please, try again.");
-                }
+                alert(thrownError);
             }
         });
     }
@@ -58,9 +55,9 @@
                 localStorage.setItem('token', data.access_token);
                 alert(data.access_token);
             },
-            error: function () {
+            error: function (xhr, ajaxOptions, thrownError) {
                 removeOauthTokenFromStorage();
-                alert("An error during OAuth token requesting. Please, try again.");
+                alert(thrownError);
             }
         });
     }

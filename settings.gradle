@@ -3,4 +3,5 @@ include 'config'
 include 'auth-service'
 include 'gateway'
 include 'registry'
-
+include 'account-service'
+include 'monitoring'

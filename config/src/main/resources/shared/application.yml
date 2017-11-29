@@ -16,23 +16,12 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://registry:8761/eureka/
-#      defaultZone: http://localhost:8761/eureka/
 
 security:
   oauth2:
     resource:
       user-info-uri: http://auth-service:5000/uaa/users/current
-#      user-info-uri: http://localhost:5000/uaa/users/current
 
 spring:
   rabbitmq:
     host: rabbitmq
-
-family:
-  ssh:
-    enabled: ${MYSQL_SSH}
-    knownHostsFile: ${MYSQL_SSH_KNOWN_HOSTS_FILE}
-    remotePort: ${MYSQL_SSH_REMOTE_PORT:3306}
-    remoteServer: ${MYSQL_SSH_REMOTE_SERVER}
-    user: ${MYSQL_SSH_USER}
-    password: ${MYSQL_SSH_PASSWORD}
