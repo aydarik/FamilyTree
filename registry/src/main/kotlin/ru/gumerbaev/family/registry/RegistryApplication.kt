@@ -6,7 +6,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer
 
 @SpringBootApplication
 @EnableEurekaServer
-open class RegistryApplication {
+class RegistryApplication {
 
     companion object {
         @JvmStatic

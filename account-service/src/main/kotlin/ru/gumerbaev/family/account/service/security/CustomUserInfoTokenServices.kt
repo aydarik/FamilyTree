@@ -25,7 +25,7 @@ import java.util.*
 
 class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, private val clientId: String) : ResourceServerTokenServices {
 
-    protected val log = LogFactory.getLog(javaClass)
+    private val log = LogFactory.getLog(javaClass)
 
     companion object {
         private val PRINCIPAL_KEYS = arrayOf("user", "username", "userid", "user_id", "login", "id", "name")

@@ -25,7 +25,7 @@ class UserServiceImpl : UserService {
         val hash = encoder.encode(user.getPassword())
         user.setPassword(hash)
 
-        repository.save(user)
+        repository!!.save(user)
 
         log.info("new user has been created: {}", user.getUsername())
     }

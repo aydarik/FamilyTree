@@ -17,7 +17,7 @@
 <script type="text/javascript">
     function addUser() {
         var username = 'test-1';
-        var password = 'pass';
+        var password = 'password';
 
         $.ajax({
             url: 'accounts/',
@@ -33,17 +33,17 @@
                 requestOauthToken(username, password);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(thrownError);
+                alert(xhr.responseText);
             }
         });
     }
 
     function requestOauthToken(username, password) {
         $.ajax({
-            url: 'uaa/oauth/token',
+            url: 'uaa/oauth/token/',
             datatype: 'json',
             type: 'post',
-            headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
+            headers: {'Authorization': 'Basic ' + btoa(username + ":" + password)},
             async: false,
             data: {
                 scope: 'ui',
@@ -57,7 +57,7 @@
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 removeOauthTokenFromStorage();
-                alert(thrownError);
+                alert(xhr.responseText);
             }
         });
     }

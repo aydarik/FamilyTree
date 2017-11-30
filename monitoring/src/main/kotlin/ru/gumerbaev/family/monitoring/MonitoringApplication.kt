@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.turbine.stream.EnableTurbineStream
 @SpringBootApplication
 @EnableTurbineStream
 @EnableHystrixDashboard
-open class MonitoringApplication {
+class MonitoringApplication {
 
     companion object {
         @JvmStatic

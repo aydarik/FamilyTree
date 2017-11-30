@@ -13,7 +13,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/users")
-open class UserController {
+class UserController {
 
     @Autowired
     private val userService: UserService? = null

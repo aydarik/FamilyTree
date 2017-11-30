@@ -43,7 +43,7 @@ class AccountServiceImpl : AccountService {
         account.name = user.username
         account.lastSeen = Date()
 
-        repository.save(account)
+        repository!!.save(account)
 
         log.info("new account has been created: " + account.name!!)
 
@@ -60,7 +60,7 @@ class AccountServiceImpl : AccountService {
 
         account.note = update.note
         account.lastSeen = Date()
-        repository.save(account)
+        repository!!.save(account)
 
         log.debug("account {} changes has been saved", name)
     }

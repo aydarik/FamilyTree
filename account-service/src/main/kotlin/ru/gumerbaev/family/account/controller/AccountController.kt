@@ -10,7 +10,7 @@ import java.security.Principal
 import javax.validation.Valid
 
 @RestController
-open class AccountController {
+class AccountController {
 
     @Autowired
     private val accountService: AccountService? = null

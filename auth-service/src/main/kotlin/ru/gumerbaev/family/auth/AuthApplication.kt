@@ -28,7 +28,7 @@ import ru.gumerbaev.family.auth.service.security.MongoUserDetailsService
 @EnableResourceServer
 @EnableDiscoveryClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-open class AuthApplication {
+class AuthApplication {
 
     companion object {
         @JvmStatic
@@ -39,7 +39,7 @@ open class AuthApplication {
 
     @Configuration
     @EnableWebSecurity
-    protected open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+    protected class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
         @Autowired
         private val userDetailsService: MongoUserDetailsService? = null
@@ -52,8 +52,7 @@ open class AuthApplication {
 
         @Throws(Exception::class)
         override fun configure(auth: AuthenticationManagerBuilder) {
-            auth.userDetailsService(userDetailsService)
-                    .passwordEncoder(BCryptPasswordEncoder())
+            auth.userDetailsService(userDetailsService).passwordEncoder(BCryptPasswordEncoder())
         }
 
         @Bean
@@ -63,7 +62,7 @@ open class AuthApplication {
 
     @Configuration
     @EnableAuthorizationServer
-    protected open class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
+    protected class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
 
         private val tokenStore = InMemoryTokenStore()
 

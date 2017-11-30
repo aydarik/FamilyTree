@@ -31,7 +31,7 @@ import ru.gumerbaev.family.account.service.security.CustomUserInfoTokenServices
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties
 @Configuration
-open class AccountApplication : ResourceServerConfigurerAdapter() {
+class AccountApplication : ResourceServerConfigurerAdapter() {
 
     @Autowired
     private val sso: ResourceServerProperties? = null
@@ -45,29 +45,29 @@ open class AccountApplication : ResourceServerConfigurerAdapter() {
 
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
-    open fun clientCredentialsResourceDetails(): ClientCredentialsResourceDetails {
+    fun clientCredentialsResourceDetails(): ClientCredentialsResourceDetails {
         return ClientCredentialsResourceDetails()
     }
 
     @Bean
-    open fun oauth2FeignRequestInterceptor(): RequestInterceptor {
+    fun oauth2FeignRequestInterceptor(): RequestInterceptor {
         return OAuth2FeignRequestInterceptor(DefaultOAuth2ClientContext(), clientCredentialsResourceDetails())
     }
 
     @Bean
-    open fun clientCredentialsRestTemplate(): OAuth2RestTemplate {
+    fun clientCredentialsRestTemplate(): OAuth2RestTemplate {
         return OAuth2RestTemplate(clientCredentialsResourceDetails())
     }
 
     @Bean
-    open fun tokenServices(): ResourceServerTokenServices {
-        return CustomUserInfoTokenServices(sso!!.userInfoUri, sso.clientId)
+    fun tokenServices(): ResourceServerTokenServices {
+        return CustomUserInfoTokenServices(sso!!.userInfoUri, sso!!.clientId)
     }
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-//                .antMatchers("/", "/demo").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
     }
 }

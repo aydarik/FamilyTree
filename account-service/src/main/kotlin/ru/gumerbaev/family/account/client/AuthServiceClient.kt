@@ -11,5 +11,4 @@ interface AuthServiceClient {
 
     @RequestMapping(method = arrayOf(RequestMethod.POST), value = "/uaa/users", consumes = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE))
     fun createUser(user: User)
-
 }
