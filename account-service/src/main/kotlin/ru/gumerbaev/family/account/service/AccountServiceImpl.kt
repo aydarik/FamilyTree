@@ -21,19 +21,12 @@ class AccountServiceImpl : AccountService {
     @Autowired
     private val repository: AccountRepository? = null
 
-    /**
-     * {@inheritDoc}
-     */
     override fun findByName(accountName: String): Account {
         Assert.hasLength(accountName, "argument must have length; it must not be null or empty")
         return repository!!.findByName(accountName)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun create(user: User): Account {
-
         val existing = repository!!.findByName(user.username!!)
         Assert.isNull(existing, "account already exists: " + user.username!!)
 
@@ -50,11 +43,7 @@ class AccountServiceImpl : AccountService {
         return account
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override fun saveChanges(name: String, update: Account) {
-
         val account = repository!!.findByName(name)
         Assert.notNull(account, "can't find account with name " + name)
 

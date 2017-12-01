@@ -64,7 +64,6 @@ class AccountApplication : ResourceServerConfigurerAdapter() {
         return CustomUserInfoTokenServices(sso!!.userInfoUri, sso!!.clientId)
     }
 
-    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()

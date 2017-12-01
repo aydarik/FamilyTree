@@ -33,6 +33,7 @@ services:
     build: account-service
     ports:
       - 6000:6000
+      - 5005:5005
 
   account-mongodb:
     build:
