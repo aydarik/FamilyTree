@@ -62,10 +62,8 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
     private fun extractAuthentication(map: Map<String, Any>): OAuth2Authentication {
         val principal = getPrincipal(map)
         val request = getRequest(map)
-        val authorities = this.authoritiesExtractor
-                .extractAuthorities(map)
-        val token = UsernamePasswordAuthenticationToken(
-                principal, "N/A", authorities)
+        val authorities = this.authoritiesExtractor.extractAuthorities(map)
+        val token = UsernamePasswordAuthenticationToken(principal, "N/A", authorities)
         token.details = map
         return OAuth2Authentication(request, token)
     }
@@ -84,10 +82,12 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
         val request = map["oauth2Request"] as Map<String, Any>
 
         val clientId = request["clientId"] as String
-        val scope = LinkedHashSet(if (request.containsKey("scope"))
-            request["scope"] as Collection<String>
-        else
-            emptySet())
+        val scope = LinkedHashSet(
+                if (request.containsKey("scope"))
+                    request["scope"] as Collection<String>
+                else
+                    emptySet()
+        )
 
         return OAuth2Request(null, clientId, null, true, HashSet(scope), null, null, null, null)
     }
@@ -106,20 +106,16 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
                 resource.clientId = this.clientId
                 restTemplate = OAuth2RestTemplate(resource)
             }
-            val existingToken = restTemplate.oAuth2ClientContext
-                    .accessToken
+            val existingToken = restTemplate.oAuth2ClientContext.accessToken
             if (existingToken == null || accessToken != existingToken.value) {
-                val token = DefaultOAuth2AccessToken(
-                        accessToken)
+                val token = DefaultOAuth2AccessToken(accessToken)
                 token.tokenType = this.tokenType
                 restTemplate.oAuth2ClientContext.accessToken = token
             }
             return restTemplate.getForEntity(path, Map::class.java).getBody() as Map<String, Any>
         } catch (ex: Exception) {
-            this.log.info("Could not fetch user details: " + ex.javaClass + ", "
-                    + ex.message)
-            return Collections.singletonMap<String, Any>("error",
-                    "Could not fetch user details")
+            this.log.info("Could not fetch user details: " + ex.javaClass + ", " + ex.message)
+            return Collections.singletonMap<String, Any>("error", "Could not fetch user details")
         }
     }
 }
