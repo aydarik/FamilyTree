@@ -3,8 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.kotlinVersion = '1.1.61'
-    ext.springBootVersion = '1.5.8.RELEASE'
-    ext.springCloudVersion = '1.3.0.RELEASE'
+    ext.springBootVersion = '1.5.9.RELEASE'
 
     repositories {
         mavenCentral()
@@ -27,14 +26,14 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Dalston.SR4'
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Dalston.RELEASE'
     }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
-    compile "org.springframework.cloud:spring-cloud-starter-eureka-server:$springCloudVersion"
-    compile "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+    compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
+    compile "org.springframework.cloud:spring-cloud-starter-config"
 }
 
 compileKotlin {
