@@ -11,11 +11,11 @@ import ru.gumerbaev.family.auth.repository.UserRepository
 class MongoUserDetailsService : UserDetailsService {
 
     @Autowired
-    private val repository: UserRepository? = null
+    private lateinit var repository: UserRepository
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
 
-        return repository!!.findOne(username) ?: throw UsernameNotFoundException(username)
+        return repository.findOne(username) ?: throw UsernameNotFoundException(username)
     }
 }

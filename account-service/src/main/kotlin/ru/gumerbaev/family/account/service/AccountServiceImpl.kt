@@ -16,27 +16,27 @@ class AccountServiceImpl : AccountService {
     private val log = LoggerFactory.getLogger(javaClass)
 
     @Autowired
-    private val authClient: AuthServiceClient? = null
+    private lateinit var authClient: AuthServiceClient
 
     @Autowired
-    private val repository: AccountRepository? = null
+    private lateinit var repository: AccountRepository
 
     override fun findByName(accountName: String): Account {
         Assert.hasLength(accountName, "argument must have length; it must not be null or empty")
-        return repository!!.findByName(accountName)
+        return repository.findByName(accountName)
     }
 
     override fun create(user: User): Account {
-        val existing = repository!!.findByName(user.username!!)
+        val existing = repository.findByName(user.username!!)
         Assert.isNull(existing, "account already exists: " + user.username!!)
 
-        authClient!!.createUser(user)
+        authClient.createUser(user)
 
         val account = Account()
         account.name = user.username
         account.lastSeen = Date()
 
-        repository!!.save(account)
+        repository.save(account)
 
         log.info("new account has been created: " + account.name!!)
 
@@ -44,12 +44,12 @@ class AccountServiceImpl : AccountService {
     }
 
     override fun saveChanges(name: String, update: Account) {
-        val account = repository!!.findByName(name)
+        val account = repository.findByName(name)
         Assert.notNull(account, "can't find account with name " + name)
 
         account.note = update.note
         account.lastSeen = Date()
-        repository!!.save(account)
+        repository.save(account)
 
         log.debug("account {} changes has been saved", name)
     }

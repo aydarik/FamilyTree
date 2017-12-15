@@ -16,7 +16,7 @@ import javax.validation.Valid
 class UserController {
 
     @Autowired
-    private val userService: UserService? = null
+    private lateinit var userService: UserService
 
     @RequestMapping(value = "/current", method = arrayOf(RequestMethod.GET))
     fun getUser(principal: Principal): Principal {
@@ -26,6 +26,6 @@ class UserController {
     @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping(method = arrayOf(RequestMethod.POST))
     fun createUser(@Valid @RequestBody user: User) {
-        userService!!.create(user)
+        userService.create(user)
     }
 }

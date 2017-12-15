@@ -16,16 +16,16 @@ class UserServiceImpl : UserService {
     private val encoder = BCryptPasswordEncoder()
 
     @Autowired
-    private val repository: UserRepository? = null
+    private lateinit var repository: UserRepository
 
     override fun create(user: User) {
-        val existing = repository!!.findOne(user.getUsername())
+        val existing = repository.findOne(user.getUsername())
         Assert.isNull(existing, "user already exists: " + user.getUsername())
 
         val hash = encoder.encode(user.getPassword())
         user.setPassword(hash)
 
-        repository!!.save(user)
+        repository.save(user)
 
         log.info("new user has been created: {}", user.getUsername())
     }

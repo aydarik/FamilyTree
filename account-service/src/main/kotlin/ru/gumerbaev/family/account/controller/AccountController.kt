@@ -13,26 +13,26 @@ import javax.validation.Valid
 class AccountController {
 
     @Autowired
-    private val accountService: AccountService? = null
+    private lateinit var accountService: AccountService
 
     @PreAuthorize("#oauth2.hasScope('server')")  /*or #name.equals('demo')*/
     @RequestMapping(path = arrayOf("/{name}"), method = arrayOf(RequestMethod.GET))
     fun getAccountByName(@PathVariable name: String): Account {
-        return accountService!!.findByName(name)
+        return accountService.findByName(name)
     }
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.GET))
     fun getCurrentAccount(principal: Principal): Account {
-        return accountService!!.findByName(principal.name)
+        return accountService.findByName(principal.name)
     }
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.PUT))
     fun saveCurrentAccount(principal: Principal, @Valid @RequestBody account: Account) {
-        accountService!!.saveChanges(principal.name, account)
+        accountService.saveChanges(principal.name, account)
     }
 
     @RequestMapping(path = arrayOf("/"), method = arrayOf(RequestMethod.POST))
     fun createNewAccount(@Valid @RequestBody user: User): Account {
-        return accountService!!.create(user)
+        return accountService.create(user)
     }
 }

@@ -34,7 +34,7 @@ import ru.gumerbaev.family.account.service.security.CustomUserInfoTokenServices
 class AccountApplication : ResourceServerConfigurerAdapter() {
 
     @Autowired
-    private val sso: ResourceServerProperties? = null
+    private lateinit var sso: ResourceServerProperties
 
     companion object {
         @JvmStatic
@@ -61,7 +61,7 @@ class AccountApplication : ResourceServerConfigurerAdapter() {
 
     @Bean
     fun tokenServices(): ResourceServerTokenServices {
-        return CustomUserInfoTokenServices(sso!!.userInfoUri, sso!!.clientId)
+        return CustomUserInfoTokenServices(sso.userInfoUri, sso.clientId)
     }
 
     override fun configure(http: HttpSecurity) {

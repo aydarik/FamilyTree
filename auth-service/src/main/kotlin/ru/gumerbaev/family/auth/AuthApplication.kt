@@ -42,12 +42,14 @@ class AuthApplication {
     protected class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
         @Autowired
-        private val userDetailsService: MongoUserDetailsService? = null
+        private lateinit var userDetailsService: MongoUserDetailsService
 
         @Throws(Exception::class)
         override fun configure(http: HttpSecurity) {
-            http.authorizeRequests().anyRequest().authenticated()
-                    .and().csrf().disable()
+            http
+                    .authorizeRequests().anyRequest().authenticated()
+                    .and()
+                    .csrf().disable()
         }
 
         @Throws(Exception::class)
@@ -68,13 +70,13 @@ class AuthApplication {
 
         @Autowired
         @Qualifier("authenticationManagerBean")
-        private val authenticationManager: AuthenticationManager? = null
+        private lateinit var authenticationManager: AuthenticationManager
 
         @Autowired
-        private val userDetailsService: MongoUserDetailsService? = null
+        private lateinit var userDetailsService: MongoUserDetailsService
 
         @Autowired
-        private val env: Environment? = null
+        private lateinit var env: Environment
 
         @Throws(Exception::class)
         override fun configure(clients: ClientDetailsServiceConfigurer) {
@@ -87,7 +89,7 @@ class AuthApplication {
                     .scopes("ui")
                     .and()
                     .withClient("account-service")
-                    .secret(env!!.getProperty("ACCOUNT_SERVICE_PASSWORD"))
+                    .secret(env.getProperty("ACCOUNT_SERVICE_PASSWORD"))
                     .authorizedGrantTypes("client_credentials", "refresh_token")
                     .scopes("server")
         }

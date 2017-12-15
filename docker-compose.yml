@@ -71,6 +71,9 @@ services:
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: aydarik/family-mongodb
     restart: always
+    depends_on:
+      config:
+        condition: service_healthy
     logging:
       options:
         max-size: "10m"
@@ -97,6 +100,9 @@ services:
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: aydarik/family-mongodb
     restart: always
+    depends_on:
+      config:
+        condition: service_healthy
     logging:
       options:
         max-size: "10m"
