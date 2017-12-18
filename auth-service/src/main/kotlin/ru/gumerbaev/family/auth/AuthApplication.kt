@@ -85,7 +85,7 @@ class AuthApplication {
 
             clients.inMemory()
                     .withClient("browser")
-                    .authorizedGrantTypes("refresh_token", "password")
+                    .authorizedGrantTypes("password", "refresh_token")
                     .scopes("ui")
                     .and()
                     .withClient("account-service")
