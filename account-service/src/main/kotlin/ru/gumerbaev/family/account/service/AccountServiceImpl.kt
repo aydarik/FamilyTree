@@ -51,13 +51,13 @@ class AccountServiceImpl : AccountService {
         account.lastSeen = Date()
         repository.save(account)
 
-        log.debug("account {} changes has been saved", name)
+        log.info("account {} changes has been saved", name)
     }
 
     override fun delete(name: String) {
         repository.delete(name)
         authClient.deleteUser(name)
 
-        log.debug("account {} has been deleted", name)
+        log.info("account {} has been deleted", name)
     }
 }

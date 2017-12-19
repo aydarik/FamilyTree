@@ -15,7 +15,7 @@ class AccountController {
     @Autowired
     private lateinit var accountService: AccountService
 
-    @PreAuthorize("#oauth2.hasScope('server')")  /*or #name.equals('demo')*/
+    @PreAuthorize("#oauth2.hasScope('server')") /*or #name.equals('demo')*/
     @RequestMapping(path = arrayOf("/{name}"), method = arrayOf(RequestMethod.GET))
     fun getAccountByName(@PathVariable name: String): Account {
         return accountService.findByName(name)
@@ -38,6 +38,6 @@ class AccountController {
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.DELETE))
     fun deleteAccount(principal: Principal) {
-        accountService.delete(principal.name);
+        accountService.delete(principal.name)
     }
 }

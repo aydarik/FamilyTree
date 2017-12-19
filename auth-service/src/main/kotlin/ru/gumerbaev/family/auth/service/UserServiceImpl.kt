@@ -33,6 +33,7 @@ class UserServiceImpl : UserService {
     }
 
     override fun delete(username: String) {
-        repository.delete(username);
+        repository.delete(username)
+        log.info("user has been deleted: {}", username)
     }
 }
