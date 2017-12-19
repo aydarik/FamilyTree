@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.util.Assert
 import ru.gumerbaev.family.auth.domain.User
 import ru.gumerbaev.family.auth.repository.UserRepository
 
@@ -20,13 +19,20 @@ class UserServiceImpl : UserService {
 
     override fun create(user: User) {
         val existing = repository.findOne(user.getUsername())
-        Assert.isNull(existing, "user already exists: " + user.getUsername())
 
-        val hash = encoder.encode(user.getPassword())
-        user.setPassword(hash)
+//        Assert.isNull(existing, "user already exists: " + user.getUsername())
+        if (existing == null) {
+            val hash = encoder.encode(user.getPassword())
+            user.setPassword(hash)
 
-        repository.save(user)
+            repository.save(user)
+            log.info("new user has been created: {}", user.getUsername())
+        } else {
+            log.info("user already exists: {}", user.getUsername())
+        }
+    }
 
-        log.info("new user has been created: {}", user.getUsername())
+    override fun delete(username: String) {
+        repository.delete(username);
     }
 }

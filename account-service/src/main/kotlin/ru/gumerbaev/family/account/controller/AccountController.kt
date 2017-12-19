@@ -35,4 +35,9 @@ class AccountController {
     fun createNewAccount(@Valid @RequestBody user: User): Account {
         return accountService.create(user)
     }
+
+    @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.DELETE))
+    fun deleteAccount(principal: Principal) {
+        accountService.delete(principal.name);
+    }
 }

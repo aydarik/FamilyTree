@@ -1,74 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
     <title>Family Tree</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .title {
+            font-weight: 700;
+            padding-right: 10px;
+        }
+    </style>
 </head>
 
 <body>
-<div>
+<h1>Family project</h1>
+
+<div><span class="title">User:</span><span id="user"><i>Not logged in</i></span></div>
+
+<p>
     <button type="button" onclick="addUser()">Add user</button>
-</div>
+    <button type="button" onclick="dropUser()">Drop user</button>
+</p>
 
-<script type="text/javascript">
-    function addUser() {
-        var username = 'test-1';
-        var password = 'password';
+<p>
+    <button type="button" onclick="getCurrentAccount()">Current</button>
+    <button type="button" onclick="login()">Login</button>
+    <button type="button" onclick="logout()">Logout</button>
+</p>
 
-        $.ajax({
-            url: 'accounts/',
-            datatype: 'json',
-            type: "post",
-            async: false,
-            contentType: "application/json",
-            data: JSON.stringify({
-                username: username,
-                password: password
-            }),
-            success: function (data) {
-                requestOauthToken(username, password);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.responseText);
-            }
-        });
-    }
-
-    function requestOauthToken(username, password) {
-        $.ajax({
-            url: 'uaa/oauth/token/',
-            datatype: 'json',
-            type: 'post',
-            headers: {'Authorization': 'Basic ' + btoa(username + ":" + password)},
-            async: false,
-            data: {
-                scope: 'ui',
-                username: username,
-                password: password,
-                grant_type: 'password'
-            },
-            success: function (data) {
-                localStorage.setItem('token', data.access_token);
-                alert(data.access_token);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                removeOauthTokenFromStorage();
-                alert(xhr.responseText);
-            }
-        });
-    }
-
-    function getOauthTokenFromStorage() {
-        return localStorage.getItem('token');
-    }
-
-    function removeOauthTokenFromStorage() {
-        return localStorage.removeItem('token');
-    }
-</script>
+<div><span class="title">Last message:</span><span id="message"><i>No messages</i></span></div>
 </body>
 </html>

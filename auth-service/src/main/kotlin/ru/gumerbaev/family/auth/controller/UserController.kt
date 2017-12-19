@@ -28,4 +28,10 @@ class UserController {
     fun createUser(@Valid @RequestBody user: User) {
         userService.create(user)
     }
+
+    @PreAuthorize("#oauth2.hasScope('server')")
+    @RequestMapping(method = arrayOf(RequestMethod.DELETE))
+    fun deleteUser(@Valid @RequestBody username: String) {
+        userService.delete(username)
+    }
 }

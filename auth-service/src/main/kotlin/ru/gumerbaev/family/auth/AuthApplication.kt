@@ -90,11 +90,13 @@ class AuthApplication {
                     .withClient("browser")
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes("ui")
+                    .accessTokenValiditySeconds(3600)
                     .and()
                     .withClient("account-service")
                     .secret(env.getProperty("ACCOUNT_SERVICE_PASSWORD"))
                     .authorizedGrantTypes("client_credentials", "refresh_token")
                     .scopes("server")
+                    .accessTokenValiditySeconds(3600)
         }
 
         @Throws(Exception::class)

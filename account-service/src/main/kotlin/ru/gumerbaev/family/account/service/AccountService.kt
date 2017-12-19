@@ -15,7 +15,6 @@ interface AccountService {
 
     /**
      * Checks if account with the same name already exists
-     * Invokes Auth Service user creation
      * Creates new account with default parameters
      *
      * @param user
@@ -25,10 +24,16 @@ interface AccountService {
 
     /**
      * Validates and applies incoming account updates
-     * Invokes Statistics Service update
      *
      * @param name
      * @param update
      */
     fun saveChanges(name: String, update: Account)
+
+    /**
+     * Deletes account
+     *
+     * @param name
+     */
+    fun delete(name: String)
 }
