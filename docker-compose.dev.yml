@@ -19,7 +19,6 @@ services:
     build: auth-service
     ports:
       - 5000:5000
-      - 5006:5006 # debug
 
   auth-mongodb:
     build:
@@ -34,7 +33,6 @@ services:
     build: account-service
     ports:
       - 6000:6000
-      - 5005:5005 # debug
 
   account-mongodb:
     build:
