@@ -13,11 +13,11 @@ function addUser() {
 			password: password
 		}),
 		success: function (data) {
-			log("OK - addUser: " + data.name);
+			log("OK: " + data.name);
 			login();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-			log("ERROR - addUser: " + xhr.responseText);
+			log("ERROR: " + xhr.responseText);
 		}
 	});
 }
@@ -33,14 +33,15 @@ function dropUser() {
 			headers: {'Authorization': 'Bearer ' + token},
 			async: false,
 			success: function () {
-				log("OK - dropUser");
+				log("OK: user dropped");
+				logout();
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				log("ERROR - dropUser: " + xhr.responseText);
+				log("ERROR: " + xhr.responseText);
 			}
 		});
 	} else {
-		log("ERROR - Not logged in");
+		log("WARN: not logged in");
 	}
 }
 
@@ -62,12 +63,12 @@ function login() {
 			grant_type: 'password'
 		},
 		success: function (data) {
-			log("OK - requestOauthToken: " + data.access_token);
+			log("OK: " + data.access_token);
 			localStorage.setItem('token', data.access_token);
 			getCurrentAccount();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-			log("ERROR - requestOauthToken: " + xhr.responseText);
+			log("ERROR: " + xhr.responseText);
 			removeOauthTokenFromStorage();
 		}
 	});
@@ -85,22 +86,23 @@ function getCurrentAccount() {
 			headers: {'Authorization': 'Bearer ' + token},
 			async: false,
 			success: function (data) {
-				log("OK - getCurrentAccount: " + data.name);
+				log("OK: logged in");
 				$("#user").html(data.name);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				log("ERROR - getCurrentAccount: " + xhr.responseText);
+				log("ERROR: " + xhr.responseText);
 				removeOauthTokenFromStorage();
 			}
 		});
 	} else {
-		log("ERROR - Not logged in");
+		log("WARN: not logged in");
 	}
 }
 
 function logout() {
 	removeOauthTokenFromStorage();
-	location.reload();
+	$("#user").html("<i>Not logged in</i>");
+	log("OK: logged out");
 }
 
 function removeOauthTokenFromStorage() {
@@ -108,6 +110,14 @@ function removeOauthTokenFromStorage() {
 }
 
 function log(message) {
-	$("#message").html(message);
+	const field = $("#message");
+	field.html(message);
 
+	if (message.startsWith('OK')) {
+		field.css('color', 'green');
+	} else if (message.startsWith('ERROR')) {
+		field.css('color', 'red');
+	} else {
+		field.css('color', '');
+	}
 }

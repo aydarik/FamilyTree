@@ -22,13 +22,13 @@ class AccountServiceImpl : AccountService {
     private lateinit var repository: AccountRepository
 
     override fun findByName(accountName: String): Account {
-        Assert.hasLength(accountName, "argument must have length; it must not be null or empty")
+        Assert.hasLength(accountName, "Argument must have length; it must not be null or empty")
         return repository.findByName(accountName)
     }
 
     override fun create(user: User): Account {
         val existing = repository.findByName(user.username!!)
-        Assert.isNull(existing, "account already exists: " + user.username!!)
+        Assert.isNull(existing, "Account already exists: " + user.username!!)
 
         authClient.createUser(user)
 
@@ -38,7 +38,7 @@ class AccountServiceImpl : AccountService {
 
         repository.save(account)
 
-        log.info("new account has been created: " + account.name!!)
+        log.info("New account has been created: %s", account.name!!)
 
         return account
     }
@@ -51,13 +51,13 @@ class AccountServiceImpl : AccountService {
         account.lastSeen = Date()
         repository.save(account)
 
-        log.info("account {} changes has been saved", name)
+        log.info("Account %s changes has been saved", name)
     }
 
     override fun delete(name: String) {
         repository.delete(name)
         authClient.deleteUser(name)
 
-        log.info("account {} has been deleted", name)
+        log.info("Account %s has been deleted", name)
     }
 }

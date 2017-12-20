@@ -1,10 +1,9 @@
 package ru.gumerbaev.family.account.service.security
 
-import org.apache.commons.logging.LogFactory
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.client.OAuth2RestOperations
 import org.springframework.security.oauth2.client.OAuth2RestTemplate
 import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails
@@ -25,7 +24,7 @@ import java.util.*
 
 class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, private val clientId: String) : ResourceServerTokenServices {
 
-    private val log = LogFactory.getLog(javaClass)
+    private val log = LoggerFactory.getLogger(javaClass)
 
     companion object {
         private val PRINCIPAL_KEYS = arrayOf("user", "username", "userid", "user_id", "login", "id", "name")
@@ -37,32 +36,16 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
 
     private var authoritiesExtractor: AuthoritiesExtractor = FixedAuthoritiesExtractor()
 
-    fun setTokenType(tokenType: String) {
-        this.tokenType = tokenType
-    }
-
-    fun setRestTemplate(restTemplate: OAuth2RestOperations) {
-        this.restTemplate = restTemplate
-    }
-
-    fun setAuthoritiesExtractor(authoritiesExtractor: AuthoritiesExtractor) {
-        this.authoritiesExtractor = authoritiesExtractor
-    }
-
-    @Throws(AuthenticationException::class, InvalidTokenException::class)
+    @Throws(InvalidTokenException::class)
     override fun loadAuthentication(accessToken: String): OAuth2Authentication {
-        val map = getMap(this.userInfoEndpointUrl, accessToken)
-        if (map.containsKey("error")) {
-            this.log.debug("userinfo returned error: " + map["error"])
-            throw InvalidTokenException(accessToken)
-        }
+        val map = getMap(userInfoEndpointUrl, accessToken)
         return extractAuthentication(map)
     }
 
     private fun extractAuthentication(map: Map<String, Any>): OAuth2Authentication {
         val principal = getPrincipal(map)
         val request = getRequest(map)
-        val authorities = this.authoritiesExtractor.extractAuthorities(map)
+        val authorities = authoritiesExtractor.extractAuthorities(map)
         val token = UsernamePasswordAuthenticationToken(principal, "N/A", authorities)
         token.details = map
         return OAuth2Authentication(request, token)
@@ -83,10 +66,11 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
 
         val clientId = request["clientId"] as String
         val scope = LinkedHashSet(
-                if (request.containsKey("scope"))
+                if (request.containsKey("scope")) {
                     request["scope"] as Collection<String>
-                else
+                } else {
                     emptySet()
+                }
         )
 
         return OAuth2Request(null, clientId, null, true, HashSet(scope), null, null, null, null)
@@ -98,24 +82,25 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
 
     @Suppress("UNCHECKED_CAST")
     private fun getMap(path: String, accessToken: String): Map<String, Any> {
-        this.log.debug("Getting user info from: " + path)
+        log.debug("Getting user info from: %s", path)
         try {
-            var restTemplate = this.restTemplate
             if (restTemplate == null) {
                 val resource = BaseOAuth2ProtectedResourceDetails()
-                resource.clientId = this.clientId
+                resource.clientId = clientId
                 restTemplate = OAuth2RestTemplate(resource)
             }
-            val existingToken = restTemplate.oAuth2ClientContext.accessToken
+
+            val clientContext = restTemplate!!.oAuth2ClientContext
+            val existingToken = clientContext.accessToken
             if (existingToken == null || accessToken != existingToken.value) {
                 val token = DefaultOAuth2AccessToken(accessToken)
-                token.tokenType = this.tokenType
-                restTemplate.oAuth2ClientContext.accessToken = token
+                token.tokenType = tokenType
+                clientContext.accessToken = token
             }
-            return restTemplate.getForEntity(path, Map::class.java).getBody() as Map<String, Any>
+            return restTemplate!!.getForEntity(path, Map::class.java).body as Map<String, Any>
         } catch (ex: Exception) {
-            this.log.info("Could not fetch user details: " + ex.javaClass + ", " + ex.message)
-            return Collections.singletonMap<String, Any>("error", "Could not fetch user details")
+            log.error("Could not fetch user details")
+            throw InvalidTokenException(accessToken, ex)
         }
     }
 }
