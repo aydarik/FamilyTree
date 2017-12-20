@@ -2,6 +2,7 @@ package ru.gumerbaev.family.account.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException
 import org.springframework.web.bind.annotation.*
 import ru.gumerbaev.family.account.domain.Account
 import ru.gumerbaev.family.account.domain.User
@@ -23,7 +24,11 @@ class AccountController {
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.GET))
     fun getCurrentAccount(principal: Principal): Account {
-        return accountService.findByName(principal.name)!!
+        try {
+            return accountService.findByName(principal.name)!!
+        } catch (npe: KotlinNullPointerException) {
+            throw InvalidClientException("Current account not found (unexpected deletion?)");
+        }
     }
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.PUT))
