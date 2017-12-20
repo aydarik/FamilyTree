@@ -7,6 +7,6 @@ import ru.gumerbaev.family.account.domain.Account
 @Repository
 interface AccountRepository : CrudRepository<Account, String> {
 
-    fun findByName(name: String): Account
+    fun findByName(name: String): Account?
 
 }

@@ -11,7 +11,7 @@ interface AccountService {
      * @param accountName
      * @return found account
      */
-    fun findByName(accountName: String): Account
+    fun findByName(accountName: String): Account?
 
     /**
      * Checks if account with the same name already exists

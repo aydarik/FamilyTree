@@ -17,13 +17,13 @@ class AccountController {
 
     @PreAuthorize("#oauth2.hasScope('server')") /*or #name.equals('demo')*/
     @RequestMapping(path = arrayOf("/{name}"), method = arrayOf(RequestMethod.GET))
-    fun getAccountByName(@PathVariable name: String): Account {
+    fun getAccountByName(@PathVariable name: String): Account? {
         return accountService.findByName(name)
     }
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.GET))
     fun getCurrentAccount(principal: Principal): Account {
-        return accountService.findByName(principal.name)
+        return accountService.findByName(principal.name)!!
     }
 
     @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.PUT))
