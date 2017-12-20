@@ -82,7 +82,7 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
 
     @Suppress("UNCHECKED_CAST")
     private fun getMap(path: String, accessToken: String): Map<String, Any> {
-        log.debug("Getting user info from: %s", path)
+        log.debug("Getting user info from: {}", path)
         try {
             if (restTemplate == null) {
                 val resource = BaseOAuth2ProtectedResourceDetails()

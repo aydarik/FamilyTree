@@ -38,7 +38,7 @@ class AccountServiceImpl : AccountService {
 
         repository.save(account)
 
-        log.info("New account has been created: %s", account.name!!)
+        log.info("New account has been created: {}", account.name!!)
 
         return account
     }
@@ -51,13 +51,13 @@ class AccountServiceImpl : AccountService {
         account.lastSeen = Date()
         repository.save(account)
 
-        log.info("Account %s changes has been saved", name)
+        log.info("Account {} changes has been saved", name)
     }
 
     override fun delete(name: String) {
         repository.delete(name)
         authClient.deleteUser(name)
 
-        log.info("Account %s has been deleted", name)
+        log.info("Account {} has been deleted", name)
     }
 }
