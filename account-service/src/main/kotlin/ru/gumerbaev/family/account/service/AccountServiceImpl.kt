@@ -21,31 +21,34 @@ class AccountServiceImpl : AccountService {
     @Autowired
     private lateinit var repository: AccountRepository
 
-    override fun findByName(accountName: String): Account {
+    override fun findByName(accountName: String): Account? {
         Assert.hasLength(accountName, "Argument must have length; it must not be null or empty")
         return repository.findByName(accountName)
     }
 
     override fun create(user: User): Account {
-        val existing = repository.findByName(user.username!!)
-        Assert.isNull(existing, "Account already exists: " + user.username!!)
-
         authClient.createUser(user)
 
-        val account = Account()
-        account.name = user.username
-        account.lastSeen = Date()
+        val existing = repository.findByName(user.username!!)
 
-        repository.save(account)
+//        Assert.isNull(existing, "Account already exists: " + user.username)
+        if (existing == null) {
+            val account = Account()
+            account.name = user.username
+            account.lastSeen = Date()
+            repository.save(account)
 
-        log.info("New account has been created: {}", account.name!!)
-
-        return account
+            log.info("New account has been created: {}", account.name)
+            return account
+        } else {
+            log.info("Account already exists: {}", existing.name)
+            return existing
+        }
     }
 
     override fun saveChanges(name: String, update: Account) {
-        val account = repository.findByName(name)
-        Assert.notNull(account, "can't find account with name " + name)
+        val account = repository.findByName(name)!!
+        Assert.notNull(account, "Can't find account with name " + name)
 
         account.note = update.note
         account.lastSeen = Date()

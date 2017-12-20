@@ -98,9 +98,9 @@ class CustomUserInfoTokenServices(private val userInfoEndpointUrl: String, priva
                 clientContext.accessToken = token
             }
             return restTemplate!!.getForEntity(path, Map::class.java).body as Map<String, Any>
-        } catch (ex: Exception) {
+        } catch (e: Exception) {
             log.error("Could not fetch user details")
-            throw InvalidTokenException(accessToken, ex)
+            throw InvalidTokenException(accessToken, e)
         }
     }
 }
