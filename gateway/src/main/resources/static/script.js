@@ -13,7 +13,7 @@ function addUser() {
 			password: password
 		}),
 		success: function (data) {
-			log("OK - addUser: " + data);
+			log("OK - addUser: " + data.name);
 			login();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
@@ -32,9 +32,8 @@ function dropUser() {
 			type: 'DELETE',
 			headers: {'Authorization': 'Bearer ' + token},
 			async: false,
-			success: function (data) {
-				log("OK - dropUser: " + data);
-				logout();
+			success: function () {
+				log("OK - dropUser");
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				log("ERROR - dropUser: " + xhr.responseText);
@@ -87,10 +86,9 @@ function getCurrentAccount() {
 			async: false,
 			success: function (data) {
 				log("OK - getCurrentAccount: " + data.name);
-				localStorage.setItem('account', data.name);
 				$("#user").html(data.name);
 			},
-			error: function () {
+			error: function (xhr, ajaxOptions, thrownError) {
 				log("ERROR - getCurrentAccount: " + xhr.responseText);
 				removeOauthTokenFromStorage();
 			}
@@ -106,7 +104,7 @@ function logout() {
 }
 
 function removeOauthTokenFromStorage() {
-	return localStorage.removeItem('token');
+	localStorage.removeItem('token');
 }
 
 function log(message) {
