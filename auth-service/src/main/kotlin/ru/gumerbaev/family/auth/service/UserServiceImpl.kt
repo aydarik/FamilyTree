@@ -26,14 +26,14 @@ class UserServiceImpl : UserService {
             user.setPassword(hash)
 
             repository.save(user)
-            log.info("New user has been created: %s", user.username)
+            log.info("New user has been created: {}", user.username)
         } else {
-            log.info("user already exists: %s", user.username)
+            log.info("User already exists: {}", user.username)
         }
     }
 
     override fun delete(username: String) {
         repository.delete(username)
-        log.info("user has been deleted: %s", username)
+        log.info("User has been deleted: {}", username)
     }
 }

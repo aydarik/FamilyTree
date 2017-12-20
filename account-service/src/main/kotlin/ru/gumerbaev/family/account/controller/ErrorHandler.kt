@@ -16,6 +16,6 @@ class ErrorHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun processValidationError(e: IllegalArgumentException) {
-        log.info("Returning HTTP 400 Bad Request", e)
+        log.error("Returning HTTP 400 Bad Request", e)
     }
 }
