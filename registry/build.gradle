@@ -38,7 +38,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
     compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
     compile "org.springframework.cloud:spring-cloud-starter-config"
-    compile "org.apache.tomcat:tomcat-juli$tomcat.version"
+    compile group:'org.apache.tomcat', name:'tomcat-juli', version:property('tomcat.version')
 }
 
 compileKotlin {
