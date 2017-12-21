@@ -13,15 +13,35 @@ Docker / Microservices test project.
 - Spring Cloud
 - MongoDB
 
+### CI/CD workflow
+
+- [Travis  CI](https://travis-ci.org/aydarik/family-tree)
+- Docker Hub
+
+
 ### How to build
 
 Execute `clean build` gradle tasks on *family-tree* project.
 
 ### How to start
 
-Production: `docker-compose -f docker-compose.yml up -d`
+Be sure, that you have exported environment variables:
 
-Development: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`
+```
+export CONFIG_SERVICE_PASSWORD="1"
+export ACCOUNT_SERVICE_PASSWORD="1"
+export MONGODB_PASSWORD="1"
+```
+
+> Instead of "**1**" it can be any password you want for each service.
+
+##### Production
+
+`docker-compose -f docker-compose.yml up -d`
+
+##### Development
+
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`
 
 ### How to use
 
