@@ -5,20 +5,12 @@ services:
     restart: always
     ports:
       - 15672:15672
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   config:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: aydarik/family-config
     restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   registry:
     environment:
@@ -29,11 +21,7 @@ services:
       config:
         condition: service_healthy
     ports:
-      - 8761:8761
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
+      - 8761:3000
 
   gateway:
     environment:
@@ -45,10 +33,6 @@ services:
         condition: service_healthy
     ports:
       - 80:4000
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   auth-service:
     environment:
@@ -60,10 +44,6 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   auth-mongodb:
     environment:
@@ -73,10 +53,6 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   account-service:
     environment:
@@ -88,10 +64,6 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   account-mongodb:
     environment:
@@ -102,10 +74,6 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   monitoring:
     environment:
@@ -118,7 +86,55 @@ services:
     ports:
       - 9000:8080
       - 8989:8989
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
+
+  ## ELK CONFIGURATION
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:6.1.1
+    restart: always
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    user: root
+    depends_on:
+      - logstash
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.1.1
+    restart: always
+    ports:
+      - 5044:5044
+    volumes:
+      - ./elk/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    restart: always
+    ports:
+      - 9200:9200
+    volumes:
+#      - ./elk/elasticsearch/data:/usr/share/elasticsearch/data:rw
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.1
+    restart: always
+    ports:
+      - 5601:5601
+    volumes:
+      - ./elk/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    depends_on:
+      - elasticsearch
+
+  curator:
+    build: elk/curator
+#      args:
+#        - HTTP_PROXY=$HTTP_PROXY
+#        - HTTPS_PROXY=$HTTPS_PROXY
+    restart: always
+    depends_on:
+      - elasticsearch

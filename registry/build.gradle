@@ -5,6 +5,10 @@ buildscript {
     ext.kotlinVersion = '1.1.61'
     ext.springBootVersion = '1.4.7.RELEASE'
 
+    // if startup failure with default tomcat version
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html#_use_tomcat_7_x_or_8_0_with_gradle
+//    ext['tomcat.version'] = '7.0.82'
+
     repositories {
         mavenCentral()
     }
@@ -18,7 +22,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
-apply plugin: "kotlin-spring"
+apply plugin: 'kotlin-spring'
 
 repositories {
     mavenCentral()
@@ -34,6 +38,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
     compile "org.springframework.cloud:spring-cloud-starter-eureka-server"
     compile "org.springframework.cloud:spring-cloud-starter-config"
+//    compile group:'org.apache.tomcat', name:'tomcat-juli', version:property('tomcat.version')
 }
 
 compileKotlin {
