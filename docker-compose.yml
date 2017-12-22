@@ -131,6 +131,7 @@ services:
       - elasticsearch
 
   curator:
+    build: elk/curator
     restart: always
     depends_on:
       - elasticsearch
