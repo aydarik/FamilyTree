@@ -117,7 +117,7 @@ services:
     ports:
       - 9200:9200
     volumes:
-#      - ./elk/elasticsearch/data:/usr/share/elasticsearch/data:rw
+      - ./elk/elasticsearch/data:/usr/share/elasticsearch/data:rw
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
 
   kibana:
@@ -131,10 +131,6 @@ services:
       - elasticsearch
 
   curator:
-    build: elk/curator
-#      args:
-#        - HTTP_PROXY=$HTTP_PROXY
-#        - HTTPS_PROXY=$HTTPS_PROXY
     restart: always
     depends_on:
       - elasticsearch
