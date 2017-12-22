@@ -12,51 +12,51 @@ env:
     - secure: "V5Wv04mwDP/RBFTFpmmVW56jSXkDaVNpdXBNB37FETy8hjVN0Cl0sA5nRqXua1X1iGyfctO6pn+GqLDwXB6EUAIuH4D++sOG9Pdli9hADL53oixmiosQpBl49WQQlNT5Y3BUqaUqd2xkZQNpWDV/5MhlhK2ZHX5nUCXiA6L2exaBUfHQj/vI9G35NMx1ttHppR1n+YjKZspElRIHaowmJx4ElvoTcosDu8G+E2MXaEMc/V4ZXmahMfg3NNWNRH1JIb074G1oZCBf+8BN0Qb0wVa/GkxsgaXfAUvqxE+dJ2rFLuQsBI4PTZXUIKVEVy8C69xJ2vg+dWAtng/vAX3V1pFUn13X6KJQymTXGtGwwgQGtCC3v3uigm+GL+So6lOw4kXpFA1VTEs/uWO6mF4Ezk4ULXHjBnceuiUZS10kGOP0fAkFDQVju7UDolB/SUMFmS5HyS1le7fBblY+Pr+PUmIuiZG8ZGtSfRoxauNyJvfsxuDIxbFwRouQgnyUHkc8anVzmoF/Wq82112ruaYN1j9nzEIPbJDyFh+g9wIYrsgserU4NwwChT5AAS0q5fSsGihloMLvSVZr5n2TgcOsdVqMNq/WRX5JpRu0inr7sD7eK3GTZrgBwxHlp9iQ4S7LkVf3phf1A5eLAuy7MIXnMYV5zqAz3vrBacVWrYaBIpE=" # DOCKER_PASS
     - COMMIT=${TRAVIS_COMMIT::7}
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-
-  #TAG
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-
-  # CONFIG SERVICE
-  - export CONFIG=aydarik/family-config
-  - docker build -t $CONFIG:$COMMIT ./config
-  - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
-  - docker push $CONFIG
-
-  # REGISTRY
-  - export REGISTRY=aydarik/family-registry
-  - docker build -t $REGISTRY:$COMMIT ./registry
-  - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
-  - docker push $REGISTRY
-
-  # GATEWAY
-  - export GATEWAY=aydarik/family-gateway
-  - docker build -t $GATEWAY:$COMMIT ./gateway
-  - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
-  - docker push $GATEWAY
-
-  # AUTH SERVICE
-  - export AUTH_SERVICE=aydarik/family-auth-service
-  - docker build -t $AUTH_SERVICE:$COMMIT ./auth-service
-  - docker tag $AUTH_SERVICE:$COMMIT $AUTH_SERVICE:$TAG
-  - docker push $AUTH_SERVICE
-
-  # ACCOUNT SERVICE
-  - export ACCOUNT_SERVICE=aydarik/family-account-service
-  - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
-  - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
-  - docker push $ACCOUNT_SERVICE
-
-  # MONITORING
-  - export MONITORING=aydarik/family-monitoring
-  - docker build -t $MONITORING:$COMMIT ./monitoring
-  - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
-  - docker push $MONITORING
-
-  # MONGO DB
-  - export MONGO_DB=aydarik/family-mongodb
-  - docker build -t $MONGO_DB:$COMMIT ./mongodb
-  - docker tag $MONGO_DB:$COMMIT $MONGO_DB:$TAG
-  - docker push $MONGO_DB
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)
+#  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+#
+#  #TAG
+#  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+#
+#  # CONFIG SERVICE
+#  - export CONFIG=aydarik/family-config
+#  - docker build -t $CONFIG:$COMMIT ./config
+#  - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
+#  - docker push $CONFIG
+#
+#  # REGISTRY
+#  - export REGISTRY=aydarik/family-registry
+#  - docker build -t $REGISTRY:$COMMIT ./registry
+#  - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
+#  - docker push $REGISTRY
+#
+#  # GATEWAY
+#  - export GATEWAY=aydarik/family-gateway
+#  - docker build -t $GATEWAY:$COMMIT ./gateway
+#  - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
+#  - docker push $GATEWAY
+#
+#  # AUTH SERVICE
+#  - export AUTH_SERVICE=aydarik/family-auth-service
+#  - docker build -t $AUTH_SERVICE:$COMMIT ./auth-service
+#  - docker tag $AUTH_SERVICE:$COMMIT $AUTH_SERVICE:$TAG
+#  - docker push $AUTH_SERVICE
+#
+#  # ACCOUNT SERVICE
+#  - export ACCOUNT_SERVICE=aydarik/family-account-service
+#  - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
+#  - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
+#  - docker push $ACCOUNT_SERVICE
+#
+#  # MONITORING
+#  - export MONITORING=aydarik/family-monitoring
+#  - docker build -t $MONITORING:$COMMIT ./monitoring
+#  - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
+#  - docker push $MONITORING
+#
+#  # MONGO DB
+#  - export MONGO_DB=aydarik/family-mongodb
+#  - docker build -t $MONGO_DB:$COMMIT ./mongodb
+#  - docker tag $MONGO_DB:$COMMIT $MONGO_DB:$TAG
+#  - docker push $MONGO_DB
