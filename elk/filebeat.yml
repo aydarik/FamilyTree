@@ -1,16 +1,16 @@
 filebeat.prospectors:
 - type: log
   paths:
-   - '/var/lib/docker/containers/a0694e343dce*/a0694e343dce*-json.log'
-   - '/var/lib/docker/containers/c7e388bafd1c*/c7e388bafd1c*-json.log'
-   - '/var/lib/docker/containers/686304357fda*/686304357fda*-json.log'
+   - '/var/lib/docker/containers/97caeae3d65b*/97caeae3d65b*-json.log'
+   - '/var/lib/docker/containers/f2dd11ba210e*/f2dd11ba210e*-json.log'
+   - '/var/lib/docker/containers/fcbb2784c61b*/fcbb2784c61b*-json.log'
   json:
     message_key: log
     keys_under_root: true
   processors:
     - add_docker_metadata: ~
   multiline:
-    pattern: '^\20'
+    pattern: "^[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}"
     negate: true
     match: after
 output.logstash:
