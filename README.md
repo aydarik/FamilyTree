@@ -37,7 +37,7 @@ export MONGODB_PASSWORD="1"
 
 ##### Production
 
-`docker-compose -f docker-compose.yml up -d`
+`docker-compose up -d`
 
 ##### Development
 
@@ -54,3 +54,11 @@ Open http://localhost:80 in any browser.
 - http://localhost:9000/hystrix - Hystrix Dashboard (paste Turbine stream link on the form)
 - http://localhost:8989 - Turbine stream (source for the Hystrix Dashboard)
 - http://localhost:15672 - RabbitMQ management (default login/password: guest/guest)
+
+# ELK Stack
+
+Elasticsearch, Logstash, Kibana with Filebeat.
+
+### Endpoints
+
+- http://localhost:5601 - Kibana
