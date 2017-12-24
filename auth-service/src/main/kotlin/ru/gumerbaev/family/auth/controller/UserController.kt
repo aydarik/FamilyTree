@@ -18,19 +18,19 @@ class UserController {
     @Autowired
     private lateinit var userService: UserService
 
-    @RequestMapping(value = "/current", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["/current"], method = [RequestMethod.GET])
     fun getUser(principal: Principal): Principal {
         return principal
     }
 
     @PreAuthorize("#oauth2.hasScope('server')")
-    @RequestMapping(method = arrayOf(RequestMethod.POST))
+    @RequestMapping(method = [RequestMethod.POST])
     fun createUser(@Valid @RequestBody user: User) {
         userService.create(user)
     }
 
     @PreAuthorize("#oauth2.hasScope('server')")
-    @RequestMapping(method = arrayOf(RequestMethod.DELETE))
+    @RequestMapping(method = [RequestMethod.DELETE])
     fun deleteUser(@Valid @RequestBody username: String) {
         userService.delete(username)
     }

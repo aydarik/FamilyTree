@@ -2,7 +2,7 @@ group 'ru.gumerbaev.family'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlinVersion = '1.1.61'
+    ext.kotlinVersion = '1.2.10'
     ext.springBootVersion = '1.4.7.RELEASE'
 
     // if startup failure with default tomcat version

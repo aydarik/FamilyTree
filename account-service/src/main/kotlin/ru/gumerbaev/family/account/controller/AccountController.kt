@@ -17,31 +17,31 @@ class AccountController {
     private lateinit var accountService: AccountService
 
     @PreAuthorize("#oauth2.hasScope('server')") /*or #name.equals('demo')*/
-    @RequestMapping(path = arrayOf("/{name}"), method = arrayOf(RequestMethod.GET))
+    @RequestMapping(path = ["/{name}"], method = [RequestMethod.GET])
     fun getAccountByName(@PathVariable name: String): Account? {
         return accountService.findByName(name)
     }
 
-    @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.GET))
+    @RequestMapping(path = ["/current"], method = [RequestMethod.GET])
     fun getCurrentAccount(principal: Principal): Account {
         try {
             return accountService.findByName(principal.name)!!
         } catch (npe: KotlinNullPointerException) {
-            throw InvalidClientException("Current account not found (unexpected deletion?)");
+            throw InvalidClientException("Current account not found (unexpected deletion?)")
         }
     }
 
-    @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.PUT))
+    @RequestMapping(path = ["/current"], method = [RequestMethod.PUT])
     fun saveCurrentAccount(principal: Principal, @Valid @RequestBody account: Account) {
         accountService.saveChanges(principal.name, account)
     }
 
-    @RequestMapping(path = arrayOf("/"), method = arrayOf(RequestMethod.POST))
+    @RequestMapping(path = ["/"], method = [RequestMethod.POST])
     fun createNewAccount(@Valid @RequestBody user: User): Account {
         return accountService.create(user)
     }
 
-    @RequestMapping(path = arrayOf("/current"), method = arrayOf(RequestMethod.DELETE))
+    @RequestMapping(path = ["/current"], method = [RequestMethod.DELETE])
     fun deleteAccount(principal: Principal) {
         accountService.delete(principal.name)
     }
