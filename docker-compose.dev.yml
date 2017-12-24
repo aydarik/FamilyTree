@@ -45,10 +45,3 @@ services:
 
   monitoring:
     build: monitoring
-
-  curator:
-    build:
-      context: elk/curator
-      args:
-        - HTTP_PROXY=$HTTP_PROXY
-        - HTTPS_PROXY=$HTTPS_PROXY
