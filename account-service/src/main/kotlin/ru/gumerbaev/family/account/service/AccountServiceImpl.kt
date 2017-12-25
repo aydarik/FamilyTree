@@ -27,10 +27,10 @@ class AccountServiceImpl : AccountService {
     }
 
     override fun create(user: User): Account {
-        authClient.createUser(user)
-
         val existing = repository.findByName(user.username!!)
         Assert.isNull(existing, "Account already exists: " + user.username)
+
+        authClient.createUser(user)
 
         val account = Account()
         account.name = user.username
