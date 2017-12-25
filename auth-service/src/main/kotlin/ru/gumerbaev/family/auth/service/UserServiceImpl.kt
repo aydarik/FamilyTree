@@ -25,7 +25,7 @@ class UserServiceImpl : UserService {
         repository.save(user)
 
         if (existing) {
-            log.info("User already exists. Profile updated: {}", user.username)
+            log.warn("User already exists. Profile updated: {}", user.username)
         } else {
             log.info("New user has been created: {}", user.username)
         }
