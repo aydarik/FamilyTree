@@ -1,25 +1,12 @@
-### Kotlin template
-# Log file
-*.log
-
-# Package Files
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
 ### Gradle template
+/gradle.properties
 /.gradle/
 build/
 out/
 
-# Gradle wrappers
-/gradle/
-/gradlew
-/gradlew.bat
-
 ### JetBrains template
 /.idea/
 /*.iml
+
+### Log file
+*.log
