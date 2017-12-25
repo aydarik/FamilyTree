@@ -21,7 +21,9 @@ Docker / Microservices test project.
 
 ### How to build
 
-Execute `clean build` gradle tasks on *family-tree* project.
+Gradle: `./gradlew clean build`
+
+Docker: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build`
 
 ### How to start
 
@@ -35,13 +37,13 @@ export MONGODB_PASSWORD="1"
 
 > Instead of "**1**" it can be any password you want for each service.
 
-##### Production
-
-`docker-compose up -d`
-
 ##### Development
 
 `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`
+
+##### Production
+
+`docker-compose up -d`
 
 ### How to use
 
