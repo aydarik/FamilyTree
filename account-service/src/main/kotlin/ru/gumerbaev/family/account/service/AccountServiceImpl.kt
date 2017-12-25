@@ -30,20 +30,15 @@ class AccountServiceImpl : AccountService {
         authClient.createUser(user)
 
         val existing = repository.findByName(user.username!!)
+        Assert.isNull(existing, "Account already exists: " + user.username)
 
-//        Assert.isNull(existing, "Account already exists: " + user.username)
-        if (existing == null) {
-            val account = Account()
-            account.name = user.username
-            account.lastSeen = Date()
-            repository.save(account)
+        val account = Account()
+        account.name = user.username
+        account.lastSeen = Date()
+        repository.save(account)
 
-            log.info("New account has been created: {}", account.name)
-            return account
-        } else {
-            log.info("Account already exists: {}", existing.name)
-            return existing
-        }
+        log.info("New account has been created: {}", account.name)
+        return account
     }
 
     override fun saveChanges(name: String, update: Account) {

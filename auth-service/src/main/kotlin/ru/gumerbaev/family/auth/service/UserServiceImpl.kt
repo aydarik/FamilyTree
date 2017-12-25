@@ -18,17 +18,16 @@ class UserServiceImpl : UserService {
     private lateinit var repository: UserRepository
 
     override fun create(user: User) {
-        val existing = repository.findOne(user.username)
+        val existing = repository.exists(user.username)
 
-//        Assert.isNull(existing, "user already exists: " + user.username)
-        if (existing == null) {
-            val hash = encoder.encode(user.password)
-            user.setPassword(hash)
+        val hash = encoder.encode(user.password)
+        user.setPassword(hash)
+        repository.save(user)
 
-            repository.save(user)
-            log.info("New user has been created: {}", user.username)
+        if (existing) {
+            log.info("User already exists. Profile updated: {}", user.username)
         } else {
-            log.info("User already exists: {}", user.username)
+            log.info("New user has been created: {}", user.username)
         }
     }
 
