@@ -15,4 +15,4 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
   server:
-    waitTimeInMsWhenSyncEmpty: 0
+    renewalPercentThreshold: 0.3
