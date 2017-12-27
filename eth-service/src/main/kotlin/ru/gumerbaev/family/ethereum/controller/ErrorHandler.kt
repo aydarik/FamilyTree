@@ -1,4 +1,4 @@
-package ru.gumerbaev.family.auth.controller
+package ru.gumerbaev.family.ethereum.controller
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

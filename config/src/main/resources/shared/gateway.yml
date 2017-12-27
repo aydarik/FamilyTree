@@ -29,5 +29,11 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
+    eth-service:
+        path: /ethereum/**
+        serviceId: eth-service
+        stripPrefix: false
+        sensitiveHeaders:
+
 server:
   port: 4000

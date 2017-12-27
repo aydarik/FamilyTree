@@ -1,3 +1,7 @@
+////////////////////////////////////////////////
+/////////////// AUTHORIZATION //////////////////
+////////////////////////////////////////////////
+
 function addUser() {
 	var username = 'test-1';
 	var password = 'password';
@@ -74,7 +78,6 @@ function login() {
 	});
 }
 
-
 function getCurrentAccount() {
 	var token = localStorage.getItem('token');
 
@@ -119,5 +122,56 @@ function log(message) {
 		field.css('color', 'red');
 	} else {
 		field.css('color', '');
+	}
+}
+
+
+////////////////////////////////////////////////
+/////////////////// INFURA /////////////////////
+////////////////////////////////////////////////
+
+function getInfuraMethods() {
+	var token = localStorage.getItem('token');
+
+	if (token) {
+		$.ajax({
+			url: 'ethereum/network/methods',
+			datatype: 'json',
+			type: 'GET',
+			headers: {'Authorization': 'Bearer ' + token},
+			async: false,
+			success: function (data) {
+				log("OK: got Infura methods");
+				$("#infura").html(data);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				log("ERROR: " + xhr.responseText);
+			}
+		});
+	} else {
+		log("WARN: not logged in");
+	}
+}
+
+function getInfuraSymbols() {
+	var token = localStorage.getItem('token');
+
+	if (token) {
+		$.ajax({
+			url: 'ethereum/ticker/symbols',
+			datatype: 'json',
+			type: 'GET',
+			headers: {'Authorization': 'Bearer ' + token},
+			async: false,
+			success: function (data) {
+				log("OK: got Infura symbols");
+				$("#infura").html(data);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				log("ERROR: " + xhr.responseText);
+			}
+		});
+	} else {
+		log("WARN: not logged in");
 	}
 }

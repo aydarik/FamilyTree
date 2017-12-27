@@ -5,3 +5,5 @@ include 'gateway'
 include 'registry'
 include 'account-service'
 include 'monitoring'
+include 'eth-service'
+

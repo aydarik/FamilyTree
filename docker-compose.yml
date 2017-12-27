@@ -86,3 +86,14 @@ services:
     ports:
       - 9000:8080
       - 8989:8989
+
+  eth-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      ETHEREUM_SERVICE_PASSWORD: $ETHEREUM_SERVICE_PASSWORD
+      INFURA_API_KEY: $INFURA_API_KEY
+    image: aydarik/family-eth-service
+    restart: on-failure
+    depends_on:
+      config:
+        condition: service_healthy

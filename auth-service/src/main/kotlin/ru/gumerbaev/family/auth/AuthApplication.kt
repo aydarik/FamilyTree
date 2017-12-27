@@ -97,6 +97,12 @@ class AuthApplication {
                     .authorizedGrantTypes("client_credentials", "refresh_token")
                     .scopes("server")
                     .accessTokenValiditySeconds(3600)
+                    .and()
+                    .withClient("eth-service")
+                    .secret(env.getProperty("ETHEREUM_SERVICE_PASSWORD"))
+                    .authorizedGrantTypes("client_credentials", "refresh_token")
+                    .scopes("server")
+                    .accessTokenValiditySeconds(3600)
         }
 
         @Throws(Exception::class)
