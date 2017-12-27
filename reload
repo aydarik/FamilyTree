@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for MODULE in "$@"
+do
+ ./gradlew $MODULE:clean $MODULE:build && docker-compose -f docker-compose.yml -f docker-compose.dev.yml build $MODULE && docker-compose up -d --no-deps --force-recreate $MODULE
+done
