@@ -1,5 +1,6 @@
 package ru.gumerbaev.family.ethereum.controller
 
+import feign.FeignException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -21,5 +22,13 @@ class ErrorHandler {
     fun processValidationError(e: IllegalArgumentException): ErrorEntity {
         log.info("Handling error: {}, {}", e.javaClass.simpleName, e.message)
         return ErrorEntity("validation_error", e.message)
+    }
+
+    @ExceptionHandler(FeignException::class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ResponseBody
+    fun processFeignException(e: FeignException): ErrorEntity {
+        log.info("Handling error: {}, {}", e.javaClass.simpleName, e.message)
+        return ErrorEntity("feign_exception", e.message)
     }
 }

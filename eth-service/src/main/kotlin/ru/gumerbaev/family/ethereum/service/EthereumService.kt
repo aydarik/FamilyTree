@@ -1,8 +1,10 @@
 package ru.gumerbaev.family.ethereum.service
 
+import ru.gumerbaev.family.ethereum.client.InfuraResponse
+
 interface EthereumService {
 
-    fun getMethods(): String?
+    fun getMethods(): InfuraResponse
 
-    fun getSymbols(): String?
+    fun getSymbols(): InfuraResponse
 }
