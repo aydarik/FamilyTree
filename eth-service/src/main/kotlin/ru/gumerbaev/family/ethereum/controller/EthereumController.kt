@@ -30,4 +30,9 @@ class EthereumController {
     fun getBalance(principal: Principal): Double {
         return ethService.getBalanceOfUser(principal.name)
     }
+
+    @RequestMapping(path = ["/generate"], method = [RequestMethod.GET])
+    fun generate(): String {
+        return ethService.generate()
+    }
 }

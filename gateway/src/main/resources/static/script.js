@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////
 
 function addUser() {
-	var username = $('#user_login').val();
-	var password = $('#user_password').val();
+	var username = document.getElementById('user_login').value;
+	var password = document.getElementById('user_password').value;
 
 	$.ajax({
 		url: 'accounts/',
@@ -50,8 +50,8 @@ function dropUser() {
 }
 
 function login() {
-	var username = $('#user_login').val();
-	var password = $('#user_password').val();
+	var username = document.getElementById('user_login').value;
+	var password = document.getElementById('user_password').value;
 
 	$.ajax({
 		url: 'uaa/oauth/token',
@@ -132,7 +132,7 @@ function setEthAddress() {
 	var token = localStorage.getItem('token');
 
 	if (token) {
-		var ethAddress = $("#user_eth_address").val();
+		var ethAddress = document.getElementById('user_eth_address').value;
 
 		if (ethAddress) {
 			$.ajax({

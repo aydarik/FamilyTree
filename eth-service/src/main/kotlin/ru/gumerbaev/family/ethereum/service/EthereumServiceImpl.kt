@@ -1,5 +1,6 @@
 package ru.gumerbaev.family.ethereum.service
 
+import org.ethereum.crypto.ECKey
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -44,5 +45,10 @@ class EthereumServiceImpl : EthereumService {
 
         val result = response.result!!.replaceFirst("0x", "")
         return java.lang.Long.parseLong(result, 16).toDouble() / eth
+    }
+
+    override fun generate(): String {
+        val key = ECKey()
+        return key.toStringWithPrivate()
     }
 }

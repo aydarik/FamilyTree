@@ -22,6 +22,10 @@ apply plugin: 'kotlin-spring'
 
 repositories {
     mavenCentral()
+
+    maven {
+        url "http://dl.bintray.com/ethereum/maven"
+    }
 }
 
 dependencyManagement {
@@ -47,6 +51,7 @@ dependencies {
     compile "org.springframework.security.oauth:spring-security-oauth2"
 
     compile "io.github.openfeign:feign-okhttp:9.5.1"
+    compile "org.ethereum:ethereumj-core:1.6.3-RELEASE"
 }
 
 compileKotlin {

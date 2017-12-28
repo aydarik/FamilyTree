@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext
 import org.springframework.security.oauth2.client.OAuth2RestTemplate
@@ -16,6 +17,8 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter
+import ru.gumerbaev.family.ethereum.blockchain.EthereumBean
+import java.util.concurrent.Executors
 
 @SpringBootApplication
 @EnableResourceServer
@@ -24,6 +27,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties
+@Configuration
 class EthereumApplication : ResourceServerConfigurerAdapter() {
 
     companion object {
@@ -47,5 +51,13 @@ class EthereumApplication : ResourceServerConfigurerAdapter() {
     @Bean
     fun clientCredentialsRestTemplate(): OAuth2RestTemplate {
         return OAuth2RestTemplate(clientCredentialsResourceDetails())
+    }
+
+    @Bean
+    @Throws(Exception::class)
+    fun ethereumBeanConfig(): EthereumBean {
+        val eBean = EthereumBean()
+        Executors.newSingleThreadExecutor().submit((eBean::start))
+        return eBean
     }
 }
