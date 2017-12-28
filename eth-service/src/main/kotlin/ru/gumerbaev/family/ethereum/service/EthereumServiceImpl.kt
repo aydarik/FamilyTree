@@ -1,28 +1,35 @@
 package ru.gumerbaev.family.ethereum.service
 
-import org.ethereum.crypto.ECKey
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
+import org.web3j.protocol.Web3j
+import org.web3j.protocol.core.DefaultBlockParameterName
+import org.web3j.utils.Convert
 import ru.gumerbaev.family.ethereum.client.AccountClient
-import ru.gumerbaev.family.ethereum.client.InfuraClient
 
 @Service
 class EthereumServiceImpl : EthereumService {
 
     private val log = LoggerFactory.getLogger(javaClass)
-    private val eth = 1000000000000000000
+
+    @Value("\${infura.network}")
+    private lateinit var infuraNetwork: String
+
+    @Autowired
+    private lateinit var web3: Web3j
 
     @Autowired
     private lateinit var accountClient: AccountClient
 
-    @Autowired
-    private lateinit var infuraClient: InfuraClient
+    override fun getNetwork(): String {
+        return infuraNetwork
+    }
 
-    override fun getMethods(): String {
-        log.info("Requesting methods")
-        return infuraClient.getMethods()
+    override fun getGethClient(): String {
+        return web3.web3ClientVersion().send().web3ClientVersion
     }
 
     override fun getBalanceOfUser(username: String): Double {
@@ -35,20 +42,13 @@ class EthereumServiceImpl : EthereumService {
         Assert.hasLength(ethAddress, "Account Ethereum address is empty: " + account.name)
         log.info("Ethereum address: {}", ethAddress)
 
-        val params = String.format("[\"%s\", \"latest\"]", ethAddress)
-        val response = infuraClient.method("eth_getBalance", params)
-        Assert.notNull(response.result, if (response.error != null) {
-            response.error!!.message
-        } else {
-            "Unknown error"
-        })
+        // send asynchronous requests to get balance
+        val ethGetBalance = web3
+                .ethGetBalance(ethAddress, DefaultBlockParameterName.LATEST)
+                .sendAsync()
+                .get()
 
-        val result = response.result!!.replaceFirst("0x", "")
-        return java.lang.Long.parseLong(result, 16).toDouble() / eth
-    }
-
-    override fun generate(): String {
-        val key = ECKey()
-        return key.toStringWithPrivate()
+        val wei = ethGetBalance.balance
+        return Convert.fromWei(wei.toBigDecimal(), Convert.Unit.ETHER).toDouble()
     }
 }

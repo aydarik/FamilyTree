@@ -15,9 +15,14 @@ class EthereumController {
     @Autowired
     private lateinit var ethService: EthereumService
 
-    @RequestMapping(path = ["/methods"], method = [RequestMethod.GET])
-    fun getMethods(principal: Principal): String {
-        return ethService.getMethods()
+    @RequestMapping(path = ["/network"], method = [RequestMethod.GET])
+    fun getNetwork(): String {
+        return ethService.getNetwork()
+    }
+
+    @RequestMapping(path = ["/geth"], method = [RequestMethod.GET])
+    fun getGethClient(): String {
+        return ethService.getGethClient()
     }
 
     @PreAuthorize("#name.equals('admin')")
@@ -29,10 +34,5 @@ class EthereumController {
     @RequestMapping(path = ["/balance"], method = [RequestMethod.GET])
     fun getBalance(principal: Principal): Double {
         return ethService.getBalanceOfUser(principal.name)
-    }
-
-    @RequestMapping(path = ["/generate"], method = [RequestMethod.GET])
-    fun generate(): String {
-        return ethService.generate()
     }
 }

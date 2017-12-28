@@ -16,6 +16,5 @@ server:
   port: 7000
 
 infura:
-  url: http://api.infura.io/v1/jsonrpc
   network: rinkeby
   key: ${INFURA_API_KEY}
