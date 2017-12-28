@@ -5,7 +5,6 @@
 function addUser() {
 	var username = $('#user_login').val();
 	var password = $('#user_password').val();
-	var ethAddress = $('#user_eth_address').val();
 
 	$.ajax({
 		url: 'accounts/',
@@ -15,8 +14,7 @@ function addUser() {
 		contentType: "application/json",
 		data: JSON.stringify({
 			username: username,
-			password: password,
-			ethAddress: ethAddress
+			password: password
 		}),
 		success: function (data) {
 			log("OK: " + data.name);
@@ -75,7 +73,6 @@ function login() {
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			log("ERROR: " + xhr.responseText);
-			removeOauthTokenFromStorage();
 		}
 	});
 }
@@ -96,7 +93,6 @@ function getCurrentAccount() {
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				log("ERROR: " + xhr.responseText);
-				removeOauthTokenFromStorage();
 			}
 		});
 	} else {
