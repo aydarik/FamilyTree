@@ -21,7 +21,8 @@ class OutNetworkConfiguration {
     }
 
     private fun getProxyClient(): OkHttpClient {
-        var value = System.getenv("http_proxy") ?: return OkHttpClient()
+        var value = System.getenv("http_proxy")
+        if (value.isEmpty()) return OkHttpClient()
         log.debug(value)
 
         val prefix = value.indexOf("//", 0)
