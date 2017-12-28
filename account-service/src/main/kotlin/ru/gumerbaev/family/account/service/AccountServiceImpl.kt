@@ -42,11 +42,26 @@ class AccountServiceImpl : AccountService {
     }
 
     override fun saveChanges(name: String, update: Account) {
+        log.info("Account update: {}", update)
+
         val account = repository.findByName(name)!!
         Assert.notNull(account, "Can't find account with name " + name)
 
-        account.note = update.note
-        account.lastSeen = Date()
+        if (update.ethAddress != null) {
+            account.ethAddress = update.ethAddress
+            log.info("ethAddress: {}", account.ethAddress)
+        }
+        if (update.note != null) {
+            account.note = update.note
+            log.info("note: {}", account.note)
+        }
+        if (update.lastSeen != null) {
+            account.lastSeen = update.lastSeen
+        } else {
+            account.lastSeen = Date()
+        }
+        log.info("lastSeen: {}", account.lastSeen)
+
         repository.save(account)
 
         log.info("Account {} changes has been saved", name)

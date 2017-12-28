@@ -9,9 +9,9 @@ import ru.gumerbaev.family.account.domain.User
 @FeignClient("auth-service")
 interface AuthServiceClient {
 
-    @RequestMapping(method = [RequestMethod.POST], value = ["/uaa/users"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @RequestMapping(method = [RequestMethod.POST], path = ["/uaa/users"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun createUser(user: User)
 
-    @RequestMapping(method = [RequestMethod.DELETE], value = ["/uaa/users"], consumes = [MediaType.TEXT_PLAIN_VALUE])
+    @RequestMapping(method = [RequestMethod.DELETE], path = ["/uaa/users"], consumes = [MediaType.TEXT_PLAIN_VALUE])
     fun deleteUser(username: String)
 }

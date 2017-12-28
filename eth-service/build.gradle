@@ -45,6 +45,8 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-netflix-hystrix-stream"
 
     compile "org.springframework.security.oauth:spring-security-oauth2"
+
+    compile "io.github.openfeign:feign-okhttp:9.5.1"
 }
 
 compileKotlin {

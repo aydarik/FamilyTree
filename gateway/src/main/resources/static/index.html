@@ -23,10 +23,15 @@
     </style>
 </head>
 
-<body>
+<body onload="getCurrentAccount()">
 <h1>Family project</h1>
 
 <div><span class="title">User:</span><span id="user"><i>Not logged in</i></span></div>
+
+<p>
+    <input id="user_login" type="text" title="Login" value="test-1"/>
+    <input id="user_password" type="password" title="Password" value="password"/>
+</p>
 
 <p>
     <button type="button" onclick="addUser()">Add user</button>
@@ -34,7 +39,6 @@
 </p>
 
 <p>
-    <button type="button" onclick="getCurrentAccount()">Current</button>
     <button type="button" onclick="login()">Login</button>
     <button type="button" onclick="logout()">Logout</button>
 </p>
@@ -42,8 +46,14 @@
 <div><span class="title">Infura:</span><span id="infura"><i>No data received</i></span></div>
 
 <p>
+    <input id="user_eth_address" type="text" title="Ethereum address"
+           value="0x8B802Dcab37A221B03bbEfbC2fc8d26B6758cedC"/>
+    <button type="button" onclick="setEthAddress()">Set address</button>
+</p>
+
+<p>
     <button type="button" onclick="getInfuraMethods()">Methods</button>
-    <button type="button" onclick="getInfuraSymbols()">Symbols</button>
+    <button type="button" onclick="getInfuraBalance()">Balance</button>
 </p>
 
 <div><span class="title">Last message:</span><span id="message"><i>No messages</i></span></div>

@@ -3,8 +3,9 @@
 ////////////////////////////////////////////////
 
 function addUser() {
-	var username = 'test-1';
-	var password = 'password';
+	var username = $('#user_login').val();
+	var password = $('#user_password').val();
+	var ethAddress = $('#user_eth_address').val();
 
 	$.ajax({
 		url: 'accounts/',
@@ -14,7 +15,8 @@ function addUser() {
 		contentType: "application/json",
 		data: JSON.stringify({
 			username: username,
-			password: password
+			password: password,
+			ethAddress: ethAddress
 		}),
 		success: function (data) {
 			log("OK: " + data.name);
@@ -50,8 +52,8 @@ function dropUser() {
 }
 
 function login() {
-	var username = 'test-1';
-	var password = 'password';
+	var username = $('#user_login').val();
+	var password = $('#user_password').val();
 
 	$.ajax({
 		url: 'uaa/oauth/token',
@@ -130,12 +132,45 @@ function log(message) {
 /////////////////// INFURA /////////////////////
 ////////////////////////////////////////////////
 
+function setEthAddress() {
+	var token = localStorage.getItem('token');
+
+	if (token) {
+		var ethAddress = $("#user_eth_address").val();
+
+		if (ethAddress) {
+			$.ajax({
+				url: 'accounts/current',
+				datatype: 'json',
+				type: "PUT",
+				headers: {'Authorization': 'Bearer ' + token},
+				async: false,
+				contentType: "application/json",
+				data: JSON.stringify({
+					ethAddress: ethAddress
+				}),
+				success: function (data) {
+					log("OK: set Ethereum Address");
+					$("#infura").html(ethAddress);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					log("ERROR: " + xhr.responseText);
+				}
+			});
+		} else {
+			log("WARN: not address specified");
+		}
+	} else {
+		log("WARN: not logged in");
+	}
+}
+
 function getInfuraMethods() {
 	var token = localStorage.getItem('token');
 
 	if (token) {
 		$.ajax({
-			url: 'ethereum/network/methods',
+			url: 'ethereum/methods',
 			datatype: 'json',
 			type: 'GET',
 			headers: {'Authorization': 'Bearer ' + token},
@@ -153,18 +188,18 @@ function getInfuraMethods() {
 	}
 }
 
-function getInfuraSymbols() {
+function getInfuraBalance() {
 	var token = localStorage.getItem('token');
 
 	if (token) {
 		$.ajax({
-			url: 'ethereum/ticker/symbols',
+			url: 'ethereum/balance',
 			datatype: 'json',
 			type: 'GET',
 			headers: {'Authorization': 'Bearer ' + token},
 			async: false,
 			success: function (data) {
-				log("OK: got Infura symbols");
+				log("OK: got current user's balance");
 				$("#infura").html(data);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {

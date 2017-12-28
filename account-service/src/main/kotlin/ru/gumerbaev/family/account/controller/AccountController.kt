@@ -16,7 +16,12 @@ class AccountController {
     @Autowired
     private lateinit var accountService: AccountService
 
-    @PreAuthorize("#oauth2.hasScope('server')") /*or #name.equals('demo')*/
+    @RequestMapping(path = ["/"], method = [RequestMethod.POST])
+    fun createNewAccount(@Valid @RequestBody user: User): Account {
+        return accountService.create(user)
+    }
+
+    @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping(path = ["/{name}"], method = [RequestMethod.GET])
     fun getAccountByName(@PathVariable name: String): Account? {
         return accountService.findByName(name)
@@ -34,11 +39,6 @@ class AccountController {
     @RequestMapping(path = ["/current"], method = [RequestMethod.PUT])
     fun saveCurrentAccount(principal: Principal, @Valid @RequestBody account: Account) {
         accountService.saveChanges(principal.name, account)
-    }
-
-    @RequestMapping(path = ["/"], method = [RequestMethod.POST])
-    fun createNewAccount(@Valid @RequestBody user: User): Account {
-        return accountService.create(user)
     }
 
     @RequestMapping(path = ["/current"], method = [RequestMethod.DELETE])

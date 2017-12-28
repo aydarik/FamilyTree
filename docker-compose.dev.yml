@@ -47,6 +47,9 @@ services:
     build: monitoring
 
   eth-service:
-    build: eth-service
+    build:
+      context: eth-service
+      args:
+        - HTTP_PROXY=$HTTP_PROXY
     ports:
       - 7000:7000
