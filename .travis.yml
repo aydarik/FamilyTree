@@ -20,52 +20,52 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   #TAG
-#  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
   # CONFIG SERVICE
   - export CONFIG=aydarik/family-config
-  - docker build -t $CONFIG:$COMMIT ./config
-#  - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
+  - docker build -t $CONFIG:$TAG ./config
+#  - docker tag $CONFIG:$TAG $CONFIG:$COMMIT
   - docker push $CONFIG
 
   # REGISTRY
   - export REGISTRY=aydarik/family-registry
-  - docker build -t $REGISTRY:$COMMIT ./registry
-#  - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
+  - docker build -t $REGISTRY:$TAG ./registry
+#  - docker tag $REGISTRY:$TAG $REGISTRY:$COMMIT
   - docker push $REGISTRY
 
   # GATEWAY
   - export GATEWAY=aydarik/family-gateway
-  - docker build -t $GATEWAY:$COMMIT ./gateway
-#  - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
+  - docker build -t $GATEWAY:$TAG ./gateway
+#  - docker tag $GATEWAY:$TAG $GATEWAY:$COMMIT
   - docker push $GATEWAY
 
   # AUTH SERVICE
   - export AUTH_SERVICE=aydarik/family-auth-service
-  - docker build -t $AUTH_SERVICE:$COMMIT ./auth-service
-#  - docker tag $AUTH_SERVICE:$COMMIT $AUTH_SERVICE:$TAG
+  - docker build -t $AUTH_SERVICE:$TAG ./auth-service
+#  - docker tag $AUTH_SERVICE:$TAG $AUTH_SERVICE:$COMMIT
   - docker push $AUTH_SERVICE
 
   # ACCOUNT SERVICE
   - export ACCOUNT_SERVICE=aydarik/family-account-service
-  - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
-#  - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
+  - docker build -t $ACCOUNT_SERVICE:$TAG ./account-service
+#  - docker tag $ACCOUNT_SERVICE:$TAG $ACCOUNT_SERVICE:$COMMIT
   - docker push $ACCOUNT_SERVICE
 
   # MONITORING
   - export MONITORING=aydarik/family-monitoring
-  - docker build -t $MONITORING:$COMMIT ./monitoring
-#  - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
+  - docker build -t $MONITORING:$TAG ./monitoring
+#  - docker tag $MONITORING:$TAG $MONITORING:$COMMIT
   - docker push $MONITORING
 
   # MONGO DB
   - export MONGO_DB=aydarik/family-mongodb
-  - docker build -t $MONGO_DB:$COMMIT ./mongodb
-#  - docker tag $MONGO_DB:$COMMIT $MONGO_DB:$TAG
+  - docker build -t $MONGO_DB:$TAG ./mongodb
+#  - docker tag $MONGO_DB:$TAG $MONGO_DB:$COMMIT
   - docker push $MONGO_DB
 
   # ETH SERVICE
   - export ETH_SERVICE=aydarik/family-eth-service
-  - docker build -t $ETH_SERVICE:$COMMIT ./eth-service
-#  - docker tag $ETH_SERVICE:$COMMIT $ETH_SERVICE:$TAG
+  - docker build -t $ETH_SERVICE:$TAG ./eth-service
+#  - docker tag $ETH_SERVICE:$TAG $ETH_SERVICE:$COMMIT
   - docker push $ETH_SERVICE
