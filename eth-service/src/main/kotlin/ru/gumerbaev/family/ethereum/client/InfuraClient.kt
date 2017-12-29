@@ -10,7 +10,7 @@ import ru.gumerbaev.family.ethereum.OutNetworkConfiguration
 import ru.gumerbaev.family.ethereum.domain.InfuraResponse
 
 @Deprecated("Use for out of network requests.", level = DeprecationLevel.WARNING)
-@FeignClient(url = "\${infura.url}/\${infura.network}", name = "infura-client",
+@FeignClient(url = "https://api.infura.io/v1/jsonrpc/\${infura.network}", name = "infura-client",
         configuration = [OutNetworkConfiguration::class])
 @RequestMapping(params = ["token=\${infura.key}"])
 interface InfuraClient {
