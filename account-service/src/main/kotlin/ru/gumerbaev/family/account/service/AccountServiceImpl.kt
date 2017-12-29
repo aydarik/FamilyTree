@@ -1,5 +1,6 @@
 package ru.gumerbaev.family.account.service
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -21,11 +22,13 @@ class AccountServiceImpl : AccountService {
     @Autowired
     private lateinit var repository: AccountRepository
 
+    @HystrixCommand
     override fun findByName(accountName: String): Account? {
         Assert.hasLength(accountName, "Argument must have length; it must not be null or empty")
         return repository.findByName(accountName)
     }
 
+    @HystrixCommand
     override fun create(user: User): Account {
         val existing = repository.findByName(user.username!!)
         Assert.isNull(existing, "Account already exists: " + user.username)
@@ -41,6 +44,7 @@ class AccountServiceImpl : AccountService {
         return account
     }
 
+    @HystrixCommand
     override fun saveChanges(name: String, update: Account) {
         log.info("Account update: {}", update)
 
@@ -67,6 +71,7 @@ class AccountServiceImpl : AccountService {
         log.info("Account {} changes has been saved", name)
     }
 
+    @HystrixCommand
     override fun delete(name: String) {
         repository.delete(name)
         authClient.deleteUser(name)

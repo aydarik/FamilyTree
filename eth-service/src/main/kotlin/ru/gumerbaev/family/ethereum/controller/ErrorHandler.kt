@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
+import java.io.IOException
 
 @ControllerAdvice
 class ErrorHandler {
@@ -30,5 +31,13 @@ class ErrorHandler {
     fun processFeignException(e: FeignException): ErrorEntity {
         log.info("Handling error: {}, {}", e.javaClass.simpleName, e.message)
         return ErrorEntity("feign_exception", e.message)
+    }
+
+    @ExceptionHandler(IOException::class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ResponseBody
+    fun processServiceUnavailableException(e: IOException): ErrorEntity {
+        log.info("Handling error: {}, {}", e.javaClass.simpleName, e.message)
+        return ErrorEntity("exception", e.message)
     }
 }

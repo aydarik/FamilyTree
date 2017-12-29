@@ -7,10 +7,6 @@ security:
       grant-type: client_credentials
       scope: server
 
-feign:
-  hystrix:
-    enabled: true
-
 server:
   context-path: /ethereum
   port: 7000

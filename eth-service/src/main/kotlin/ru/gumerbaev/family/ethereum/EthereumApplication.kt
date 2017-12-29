@@ -4,12 +4,12 @@ import feign.RequestInterceptor
 import okhttp3.Authenticator
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor
@@ -37,9 +37,8 @@ import java.util.concurrent.TimeUnit
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties
+@EnableCircuitBreaker
 class EthereumApplication : ResourceServerConfigurerAdapter() {
-
-    private val log = LoggerFactory.getLogger(EthereumApplication::class.java)
 
     @Value("\${infura.network}")
     private lateinit var infuraNetwork: String
@@ -127,11 +126,7 @@ class EthereumApplication : ResourceServerConfigurerAdapter() {
 
     @Bean
     fun web3(): Web3j {
-        // We start by creating a new web3j instance to connect to remote nodes on the network.
-        val web3 = Web3j.build(HttpService(format("https://%s.infura.io/%s", infuraNetwork, infuraKey),
+        return Web3j.build(HttpService(format("https://%s.infura123.io/%s", infuraNetwork, infuraKey),
                 getProxyClient(), false))
-        log.info("Connected to Ethereum client version: {}", web3.web3ClientVersion().send().web3ClientVersion)
-
-        return web3
     }
 }

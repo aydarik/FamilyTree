@@ -1,5 +1,6 @@
 package ru.gumerbaev.family.ethereum.service
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -24,14 +25,17 @@ class EthereumServiceImpl : EthereumService {
     @Autowired
     private lateinit var accountClient: AccountClient
 
+    @HystrixCommand
     override fun getNetwork(): String {
         return infuraNetwork
     }
 
+    @HystrixCommand
     override fun getGethClient(): String {
         return web3.web3ClientVersion().send().web3ClientVersion
     }
 
+    @HystrixCommand
     override fun getBalanceOfUser(username: String): Double {
         log.info("Requesting balance: {}", username)
 

@@ -1,5 +1,6 @@
 package ru.gumerbaev.family.auth.service
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -18,6 +19,7 @@ class UserServiceImpl : UserService {
     @Autowired
     private lateinit var repository: UserRepository
 
+    @HystrixCommand
     override fun create(user: User) {
         val existing = repository.exists(user.username)
         Assert.isTrue(!existing, "User already exists: " + user.username)
@@ -29,6 +31,7 @@ class UserServiceImpl : UserService {
         log.info("New user has been created: {}", user.username)
     }
 
+    @HystrixCommand
     override fun delete(username: String) {
         repository.delete(username)
         log.info("User has been deleted: {}", username)
