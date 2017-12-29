@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 
 services:
   - docker
@@ -13,11 +13,14 @@ env:
 #    - COMMIT=${TRAVIS_COMMIT::7}
 
 after_success:
+  # Codecov
   - bash <(curl -s https://codecov.io/bash)
+
+  # Docker Hub
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   #TAG
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+#  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
   # CONFIG SERVICE
   - export CONFIG=aydarik/family-config
