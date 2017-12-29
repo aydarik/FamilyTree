@@ -14,7 +14,8 @@ class UserServiceImpl : UserService {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    private val encoder = BCryptPasswordEncoder()
+    @Autowired
+    private lateinit var encoder: BCryptPasswordEncoder
 
     @Autowired
     private lateinit var repository: UserRepository

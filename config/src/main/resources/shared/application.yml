@@ -10,6 +10,10 @@ hystrix:
           thread:
             timeoutInMilliseconds: 10000
 
+feign:
+  hystrix:
+    enabled: false
+
 eureka:
   instance:
     prefer-ip-address: true

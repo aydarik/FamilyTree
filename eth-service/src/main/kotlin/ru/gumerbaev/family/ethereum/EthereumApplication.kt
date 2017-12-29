@@ -126,7 +126,7 @@ class EthereumApplication : ResourceServerConfigurerAdapter() {
 
     @Bean
     fun web3(): Web3j {
-        return Web3j.build(HttpService(format("https://%s.infura123.io/%s", infuraNetwork, infuraKey),
+        return Web3j.build(HttpService(format("https://%s.infura.io/%s", infuraNetwork, infuraKey),
                 getProxyClient(), false))
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.SecurityProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.annotation.Bean
@@ -31,6 +32,7 @@ import ru.gumerbaev.family.auth.service.security.MongoUserDetailsService
 @EnableResourceServer
 @EnableDiscoveryClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableConfigurationProperties
 @EnableCircuitBreaker
 class AuthApplication {
 
@@ -121,5 +123,10 @@ class AuthApplication {
                     .tokenKeyAccess("permitAll()")
                     .checkTokenAccess("isAuthenticated()")
         }
+    }
+
+    @Bean
+    fun encoder(): BCryptPasswordEncoder {
+        return BCryptPasswordEncoder()
     }
 }
