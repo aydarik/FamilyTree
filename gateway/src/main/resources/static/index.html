@@ -1,74 +1,113 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Family Tree</title>
+    <title>Ethereum</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="style.css"/>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <style type="text/css">
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #333;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        section {
-            padding-bottom: 20px;
-        }
-
-        .title {
-            font-weight: 700;
-            padding-right: 10px;
-        }
-    </style>
 
     <script type="text/javascript">
-        function init() {
-            getCurrentAccount();
-        }
+		function init() {
+			getCurrentAccount();
+		}
     </script>
 </head>
 
 <body onload="init()">
-<h1>Ethereum</h1>
-<section>
-    <div><span class="title">Network:</span><span id="network"><i>Unknown</i></span></div>
-    <div><span class="title">Client:</span><span id="geth_client"><i>Unknown</i></span></div>
-</section>
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-5">
+            <div class="page-header">
+                <h1>Ethereum</h1>
+            </div>
 
-<section>
-    <div><span class="title">User:</span><span id="user"><i>Not logged in</i></span></div>
-    <p>
-        <input id="user_login" type="text" title="Login" value="test-1"/>
-        <input id="user_password" type="password" title="Password" value="password"/>
-    </p>
-    <p>
-        <button type="button" onclick="addUser()">Add user</button>
-        <button type="button" onclick="dropUser()">Drop user</button>
-    </p>
-    <p>
-        <button type="button" onclick="login()">Login</button>
-        <button type="button" onclick="logout()">Logout</button>
-    </p>
-</section>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="network">Network:</label>
+                    <div class="col-sm-10">
+                        <p id="network" class="form-control-static"><i>Unknown</i></p>
+                    </div>
 
-<section>
-    <div><span class="title">Infura:</span><span id="infura"><i>No data received</i></span></div>
-    <p>
-        <input id="user_eth_address" type="text" title="Ethereum address"
-               value="0x8B802Dcab37A221B03bbEfbC2fc8d26B6758cedC"/>
-    </p>
-    <p>
-        <!--<button type="button" onclick="generateEthAddress()">Generate address</button>-->
-        <button type="button" onclick="setEthAddress()">Set address</button>
-        <button type="button" onclick="getInfuraBalance()">Balance</button>
-    </p>
-</section>
+                    <label class="control-label col-sm-2" for="geth_client">Client:</label>
+                    <div class="col-sm-10">
+                        <p id="geth_client" class="form-control-static"><i>Unknown</i></p>
+                    </div>
+                </div>
+            </form>
 
-<div><span class="title">Last message:</span><span id="message"><i>No messages</i></span></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Authorization</div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="user">User:</label>
+                            <div class="col-sm-10">
+                                <p id="user" class="form-control-static"><i>Not logged in</i></p>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="user_login" type="text" class="form-control" name="login" placeholder="Login"
+                                   value="test-1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="user_password" type="text" class="form-control" name="password"
+                                   placeholder="Password" value="password">
+                        </div>
+                    </form>
+
+                    <form class="form-inline padding-top">
+                        <button type="button" class="btn btn-success" onclick="addUser()">Add user</button>
+                        <button type="button" class="btn btn-danger" onclick="dropUser()">Drop user</button>
+                        <button type="button" class="btn btn-info" onclick="login()">Login</button>
+                        <button type="button" class="btn btn-warning" onclick="logout()">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Blockchain</div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="infura">Infura:</label>
+                            <div class="col-sm-10">
+                                <p id="infura" class="form-control-static"><i>No data received</i></p>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-link"></i></span>
+                            <input id="user_eth_address" type="text" class="form-control" name="address"
+                                   placeholder="Ethereum address"
+                                   value="0x8B802Dcab37A221B03bbEfbC2fc8d26B6758cedC"
+                                   style="min-width: 400px">
+                        </div>
+                    </form>
+
+                    <form class="form-inline padding-top">
+                        <!--<button type="button" class="btn btn-primary" onclick="generateEthAddress()">Generate address</button>-->
+                        <button type="button" class="btn btn-success" onclick="setEthAddress()">Set address</button>
+                        <button type="button" class="btn btn-info" onclick="getInfuraBalance()">Balance</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages" class="col-sm-7 sidenav padding-top"></div>
+    </div>
+</div>
 </body>
 </html>
