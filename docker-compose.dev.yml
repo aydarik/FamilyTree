@@ -7,7 +7,7 @@ services:
   config:
     build: config
     ports:
-      - 8888:8888
+      - 8000:8000
 
   registry:
     build: registry

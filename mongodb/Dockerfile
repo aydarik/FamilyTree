@@ -1,7 +1,7 @@
 FROM mongo:3
 MAINTAINER Aydar Gumerbaev <aydar@gumerbaev.ru>
 
-ADD init.sh /init.sh
+ADD ./init.sh /init.sh
 ADD ./dump /
 
 ENV http_proxy $HTTP_PROXY

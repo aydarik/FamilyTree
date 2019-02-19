@@ -15,7 +15,6 @@ class MongoUserDetailsService : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-
-        return repository.findOne(username) ?: throw UsernameNotFoundException(username)
+        return repository.findById(username).orElse(null)
     }
 }

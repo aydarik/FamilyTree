@@ -1,68 +1,64 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.71'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.2.71'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
 group 'ru.gumerbaev.family'
 version '1.0-SNAPSHOT'
 
-buildscript {
-    ext.kotlinVersion = '1.2.10'
-    ext.springBootVersion = '1.4.7.RELEASE'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
-    }
-}
-
-apply plugin: 'java'
-apply plugin: 'kotlin'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'kotlin-spring'
-
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('springCloudVersion', 'Greenwich.RELEASE')
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.cloud:spring-cloud-starter-bus-amqp"
+    implementation "org.springframework.cloud:spring-cloud-starter-oauth2"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix"
+
+    implementation "org.springframework.cloud:spring-cloud-starter-oauth2"
+
+    implementation "io.github.openfeign:feign-okhttp:10.2.0"
+    implementation "org.web3j:core:4.1.1"
 }
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR7'
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
-
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-
-    compile "org.springframework.cloud:spring-cloud-starter-config"
-    compile "org.springframework.cloud:spring-cloud-starter-feign"
-    compile "org.springframework.cloud:spring-cloud-starter-eureka"
-    compile "org.springframework.cloud:spring-cloud-starter-bus-amqp"
-    compile "org.springframework.cloud:spring-cloud-starter-oauth2"
-    compile "org.springframework.cloud:spring-cloud-netflix-hystrix-stream"
-    compile "org.springframework.cloud:spring-cloud-starter-hystrix"
-
-    compile "org.springframework.security.oauth:spring-security-oauth2"
-
-    compile "io.github.openfeign:feign-okhttp:9.5.1"
-    compile "org.web3j:core:3.2.0"
-}
-
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
 }
+
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/main/kotlin/'
-    test.java.srcDirs += 'src/test/kotlin/'
-}
-
-jar {
+bootJar {
     archiveName 'eth-service.jar'
 }

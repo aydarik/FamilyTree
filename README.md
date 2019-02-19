@@ -21,7 +21,7 @@ Docker / Microservices test project.
 
 ### How to build
 
-Gradle: `./gradlew clean build`
+Gradle: `gradlew clean build`
 
 Docker: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build`
 

@@ -22,7 +22,7 @@ class UserServiceImpl : UserService {
 
     @HystrixCommand
     override fun create(user: User) {
-        val existing = repository.exists(user.username)
+        val existing = repository.existsById(user.username!!)
         Assert.isTrue(!existing, "User already exists: " + user.username)
 
         val hash = encoder.encode(user.password)
@@ -34,7 +34,8 @@ class UserServiceImpl : UserService {
 
     @HystrixCommand
     override fun delete(username: String) {
-        repository.delete(username)
+        val user = repository.findById(username)
+        repository.delete(user.get())
         log.info("User has been deleted: {}", username)
     }
 }

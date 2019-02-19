@@ -6,5 +6,4 @@ import ru.gumerbaev.family.auth.domain.User
 
 @Repository
 interface UserRepository : CrudRepository<User, String> {
-    fun findByUsername(): User
 }

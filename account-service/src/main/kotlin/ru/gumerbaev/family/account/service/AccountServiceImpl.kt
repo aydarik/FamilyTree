@@ -73,7 +73,8 @@ class AccountServiceImpl : AccountService {
 
     @HystrixCommand
     override fun delete(name: String) {
-        repository.delete(name)
+        val account = repository.findByName(name)
+        account?.let { repository.delete(it) }
         authClient.deleteUser(name)
 
         log.info("Account {} has been deleted", name)
